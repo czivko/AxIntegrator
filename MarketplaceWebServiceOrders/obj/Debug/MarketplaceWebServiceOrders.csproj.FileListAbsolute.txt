@@ -1,0 +1,10 @@
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AmazonSample\Orders\MarketplaceWebServiceOrders\bin\Debug\MarketplaceWebServiceOrders.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AmazonSample\Orders\MarketplaceWebServiceOrders\bin\Debug\MarketplaceWebServiceOrders.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AmazonSample\Orders\MarketplaceWebServiceOrders\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AmazonSample\Orders\MarketplaceWebServiceOrders\obj\Debug\MarketplaceWebServiceOrders.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AmazonSample\Orders\MarketplaceWebServiceOrders\obj\Debug\MarketplaceWebServiceOrders.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders\bin\Debug\MarketplaceWebServiceOrders.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders\bin\Debug\MarketplaceWebServiceOrders.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders\obj\Debug\MarketplaceWebServiceOrders.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders\obj\Debug\MarketplaceWebServiceOrders.pdb

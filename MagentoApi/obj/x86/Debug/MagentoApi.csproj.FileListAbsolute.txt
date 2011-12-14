@@ -1,0 +1,5 @@
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MagentoApi\bin\Debug\MagentoApi.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MagentoApi\bin\Debug\MagentoApi.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MagentoApi\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MagentoApi\obj\x86\Debug\MagentoApi.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MagentoApi\obj\x86\Debug\MagentoApi.pdb

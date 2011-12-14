@@ -1,0 +1,48 @@
+2011-12-02 19:40:44.7790|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
+2011-12-02 19:40:44.8219|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:40:46.8302|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:40:48.8307|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:43:13.9368|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
+2011-12-02 19:43:18.6354|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:43:23.5220|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:43:28.3298|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:43:33.1531|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:43:38.1099|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:46:49.0085|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
+2011-12-02 19:46:50.2633|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:46:55.1608|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:46:59.9841|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:47:04.7684|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:47:09.5615|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:50:55.9657|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
+2011-12-02 19:50:56.0164|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:50:58.0404|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:01.2296|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:51:03.2479|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:06.0949|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:51:08.1190|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:10.9328|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:51:12.9501|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:15.7708|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:51:17.7890|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:20.6078|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-02 19:51:22.6231|ERROR|AxIntegrator.AxIntegratorService|System.ArgumentNullException: Value cannot be null.
+Parameter name: charles says fail
+   at AxIntegrator.AxIntegratorService.GetNewOrdersFromAmazon() in c:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\AxIntegratorService.cs:line 50
+2011-12-02 19:51:25.5822|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-03 16:26:57.9017|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
+2011-12-03 16:26:57.9476|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-03 16:26:59.9479|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-03 16:27:01.9483|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-03 16:27:03.9486|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
+2011-12-03 16:27:05.9480|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()

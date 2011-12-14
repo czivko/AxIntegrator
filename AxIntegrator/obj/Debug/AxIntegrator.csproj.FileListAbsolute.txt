@@ -1,0 +1,8 @@
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.config
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\AxIntegrator.exe
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\AxIntegrator.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.xml
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\AxIntegrator.exe
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\AxIntegrator.pdb

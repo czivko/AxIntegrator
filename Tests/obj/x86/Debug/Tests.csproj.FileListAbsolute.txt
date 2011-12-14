@@ -1,0 +1,17 @@
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\NLog.config
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Tests.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Tests.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\AxIntegrator.exe
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\MagentoApi.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\MarketplaceWebServiceOrders.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\NLog.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\NUnit.Framework.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Shouldly.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\AxIntegrator.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\MarketplaceWebServiceOrders.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\MagentoApi.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\NLog.xml
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Shouldly.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\obj\x86\Debug\Tests.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\obj\x86\Debug\Tests.pdb

@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 4.1.0.8000
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AxIntegrator", "AxIntegrator\AxIntegrator.csproj", "{01F72C77-8A8E-4FAA-BD7E-896F727505C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2121825B-8599-48FE-8D73-CE195C486D33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebServiceOrders", "MarketplaceWebServiceOrders\MarketplaceWebServiceOrders.csproj", "72427710-412B-499C-981C-DFAE38960FC1"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebServiceOrders.Samples", "MarketplaceWebServiceOrders.Samples\MarketplaceWebServiceOrders.Samples.csproj", "75555A86-6180-43F2-A201-DC863B382012"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagentoApi", "MagentoApi\MagentoApi.csproj", "{44F1B177-84B1-40BC-8267-CE54D8AFAE82}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01F72C77-8A8E-4FAA-BD7E-896F727505C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F72C77-8A8E-4FAA-BD7E-896F727505C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F72C77-8A8E-4FAA-BD7E-896F727505C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F72C77-8A8E-4FAA-BD7E-896F727505C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Debug|Any CPU.Build.0 = Debug|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Release|Any CPU.Build.0 = Release|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Release|Any CPU.ActiveCfg = Release|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Debug|x86.Build.0 = Debug|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Debug|x86.ActiveCfg = Debug|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Release|x86.Build.0 = Release|x86
+		{2121825B-8599-48FE-8D73-CE195C486D33}.Release|x86.ActiveCfg = Release|x86
+		72427710-412B-499C-981C-DFAE38960FC1.Debug|Any CPU.Build.0 = Debug|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Debug|x86.Build.0 = Debug|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Debug|x86.ActiveCfg = Debug|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Release|Any CPU.Build.0 = Release|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Release|Any CPU.ActiveCfg = Release|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Release|x86.Build.0 = Release|Any CPU
+		72427710-412B-499C-981C-DFAE38960FC1.Release|x86.ActiveCfg = Release|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Debug|Any CPU.Build.0 = Debug|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Debug|x86.Build.0 = Debug|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Debug|x86.ActiveCfg = Debug|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Release|Any CPU.Build.0 = Release|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Release|Any CPU.ActiveCfg = Release|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Release|x86.Build.0 = Release|Any CPU
+		75555A86-6180-43F2-A201-DC863B382012.Release|x86.ActiveCfg = Release|Any CPU
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Debug|Any CPU.Build.0 = Debug|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Debug|x86.Build.0 = Debug|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Debug|x86.ActiveCfg = Debug|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|Any CPU.Build.0 = Release|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|Any CPU.ActiveCfg = Release|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|x86.Build.0 = Release|x86
+		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
