@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace AxIntegrator
+namespace CandyDirect.AxIntegrator
 {
     public class AxIntegratorService: System.ServiceProcess.ServiceBase
     {

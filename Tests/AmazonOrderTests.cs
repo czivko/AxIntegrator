@@ -1,19 +1,13 @@
-﻿/*
- * Created by SharpDevelop.
- * User: czivko
- * Date: 12/2/2011
- * Time: 4:04 PM
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
-using AxIntegrator;
+﻿using System;
+using CandyDirect.AxIntegrator;
 using MarketplaceWebServiceOrders;
 using MarketplaceWebServiceOrders.Model;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Shouldly;
 using System.Xml.Serialization;
+using CandyDirect.AppServices;
+
 namespace Tests
 {
 	[TestFixture]

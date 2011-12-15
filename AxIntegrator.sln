@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 # SharpDevelop 4.1.0.8000
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AxIntegrator", "AxIntegrator\AxIntegrator.csproj", "{01F72C77-8A8E-4FAA-BD7E-896F727505C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AxIntegratorService", "AxIntegrator\AxIntegratorService.csproj", "{01F72C77-8A8E-4FAA-BD7E-896F727505C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2121825B-8599-48FE-8D73-CE195C486D33}"
 EndProject
@@ -11,6 +11,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebServiceOrders.Samples", "MarketplaceWebServiceOrders.Samples\MarketplaceWebServiceOrders.Samples.csproj", "75555A86-6180-43F2-A201-DC863B382012"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagentoApi", "MagentoApi\MagentoApi.csproj", "{44F1B177-84B1-40BC-8267-CE54D8AFAE82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppServices", "AppServices\AppServices.csproj", "{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,14 @@ Global
 		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|Any CPU.ActiveCfg = Release|x86
 		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|x86.Build.0 = Release|x86
 		{44F1B177-84B1-40BC-8267-CE54D8AFAE82}.Release|x86.ActiveCfg = Release|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Debug|Any CPU.Build.0 = Debug|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Debug|x86.Build.0 = Debug|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Debug|x86.ActiveCfg = Debug|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Release|Any CPU.Build.0 = Release|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Release|Any CPU.ActiveCfg = Release|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Release|x86.Build.0 = Release|x86
+		{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

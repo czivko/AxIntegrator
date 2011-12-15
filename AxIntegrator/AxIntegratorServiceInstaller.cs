@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace AxIntegrator
+namespace CandyDirect.AxIntegrator
 {
     [RunInstaller(true)]
     public class AxIntegratorServiceInstaller : Installer

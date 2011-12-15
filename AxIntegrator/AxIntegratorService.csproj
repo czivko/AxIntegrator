@@ -8,8 +8,8 @@
     <ProjectGuid>{01F72C77-8A8E-4FAA-BD7E-896F727505C9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AxIntegrator</RootNamespace>
-    <AssemblyName>AxIntegrator</AssemblyName>
+    <RootNamespace>CandyDirect.AxIntegratorService</RootNamespace>
+    <AssemblyName>CandyDirect.AxIntegratorService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>False</SignAssembly>
@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmazonStore.cs" />
     <Compile Include="AxIntegratorService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -75,6 +74,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppServices\AppServices.csproj">
+      <Project>{E2AC7DDE-B257-4EC9-A58C-89997E73E8CA}</Project>
+      <Name>AppServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
