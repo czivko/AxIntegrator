@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmazonStore.cs" />
+    <Compile Include="DB\ProcessedOrders.cs" />
     <Compile Include="DB\Massive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MagentoStore.cs" />

@@ -1,6 +1,8 @@
 ﻿using System;
-using NUnit.Framework;
+using System.Linq;
 using MagentoApi;
+using NUnit.Framework;
+using CandyDirect.AppServices.DB;
 
 namespace Tests
 {
@@ -10,17 +12,20 @@ namespace Tests
 		[Test]
 		public void CanGetNewOrders()
 		{
+			var table = new ProcessedOrders();
+ 			var orders = table.All();
+ 			Console.WriteLine(orders.Count());
+ 			
 			MagentoService mservice = new MagentoService();
           	String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
-          	//mservice.salesOrderList(mlogin,null);
-          	var salesInfo = mservice.salesOrderInfo(mlogin, "CDO00022570");
+          	
           	filters mf = new filters();
            	complexFilter[] cpf = new complexFilter[1];
            	complexFilter mcpf = new complexFilter();
            	mcpf.key = "entity_id"; //"increment_id";//
            	associativeEntity mas = new associativeEntity();
            	mas.key = "gt";
-           	mas.value = "22901"; //"CDO00022569";
+           	mas.value = orders.First().StoreEntityId; //"CDO00022569";
            	mcpf.value = mas;
            	cpf[0] = mcpf;
            	mf.complex_filter = cpf;
@@ -30,17 +35,19 @@ namespace Tests
 	 
 	              foreach (salesOrderEntity msoe in soe)
 	              {
-	                  try
-	                  {
-	                      Console.WriteLine(msoe.order_id  + "::" + msoe.increment_id + " :: " + msoe.billing_firstname + " " + msoe.subtotal);
-	                  }
-	                  catch (Exception merror)
-	                  {
-	                      Console.WriteLine("" + msoe.order_id + ""+merror.ToString());
-	                  }
+	                  	var orderInfo = mservice.salesOrderInfo(mlogin, msoe.increment_id);
+	                      Console.WriteLine(orderInfo.order_id  + "::" + orderInfo.increment_id + " :: " 
+	                  	                  + orderInfo.billing_firstname + " " + orderInfo.subtotal + "Number of items: " 
+	                  	                  + orderInfo.items.Length);
+	                  	orderInfo.items.ToList().ForEach(PrintOrderItem);
 	              }
-	          }
-           
+	          } 
+		}
+		
+		private void PrintOrderItem(salesOrderItemEntity item)
+		{
+			Console.WriteLine("   ___  " + item.sku + " Name: " + item.name);
+			
 		}
 		
 		[Test]
