@@ -1,5 +1,4 @@
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\NLog.config
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\app.config
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Tests.dll.config
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Tests.dll
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\Tests\bin\Debug\Tests.pdb

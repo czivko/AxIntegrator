@@ -8,8 +8,10 @@
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\czivko\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,6 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Dynamics.BusinessConnectorNet">
+      <HintPath>..\..\..\..\..\..\..\Program Files %28x86%29\Microsoft Dynamics AX\50\Client\Bin\Microsoft.Dynamics.BusinessConnectorNet.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
@@ -53,12 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmazonOrderTests.cs" />
+    <Compile Include="AxCreateSalesOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MagentoBasicTestsOverSoapApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
