@@ -12,13 +12,21 @@
     </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Users\czivko\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
@@ -87,6 +95,10 @@
     </ProjectReference>
     <ProjectReference Include="..\MarketplaceWebServiceOrders\MarketplaceWebServiceOrders.csproj">
       <Project>72427710-412B-499C-981C-DFAE38960FC1</Project>
+      <Name>MarketplaceWebServiceOrders</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarketplaceWebServiceOrders\MarketplaceWebServiceOrders.csproj">
+      <Project>{326B291D-8E87-4654-9216-55705AACCA93}</Project>
       <Name>MarketplaceWebServiceOrders</Name>
     </ProjectReference>
   </ItemGroup>

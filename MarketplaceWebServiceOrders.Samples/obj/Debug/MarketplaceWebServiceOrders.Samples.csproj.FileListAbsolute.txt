@@ -1,7 +1,0 @@
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\bin\Debug\MarketplaceWebServiceOrders.Samples.exe
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\bin\Debug\MarketplaceWebServiceOrders.Samples.pdb
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\bin\Debug\MarketplaceWebServiceOrders.dll
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\bin\Debug\MarketplaceWebServiceOrders.pdb
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\obj\Debug\MarketplaceWebServiceOrders.Samples.exe
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\MarketplaceWebServiceOrders.Samples\obj\Debug\MarketplaceWebServiceOrders.Samples.pdb
