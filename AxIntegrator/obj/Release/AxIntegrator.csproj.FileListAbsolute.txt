@@ -1,6 +1,0 @@
-C:\Users\czivko\AppData\Local\Temporary Projects\AxIntegrator\obj\Release\ResolveAssemblyReference.cache
-C:\Users\czivko\documents\visual studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Release\ResolveAssemblyReference.cache
-C:\Users\czivko\documents\visual studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Release\AxIntegrator.dll
-C:\Users\czivko\documents\visual studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Release\AxIntegrator.pdb
-C:\Users\czivko\documents\visual studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Release\AxIntegrator.dll
-C:\Users\czivko\documents\visual studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Release\AxIntegrator.pdb

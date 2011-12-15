@@ -1,8 +1,0 @@
-2011-12-02 17:09:19.7575|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.OnStart()
-2011-12-02 17:09:19.7936|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:21.7982|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:23.7950|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:25.7928|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:27.7896|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:29.7883|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()
-2011-12-02 17:09:31.7861|INFO|AxIntegrator.AxIntegratorService|AxIntegratorService.GetNewOrdersFromAmazon()

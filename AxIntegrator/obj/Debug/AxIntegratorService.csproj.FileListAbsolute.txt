@@ -1,10 +1,10 @@
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.config
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AxIntegratorService.exe
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AxIntegratorService.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AppServices.dll
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AppServices.pdb
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\NLog.xml
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\CandyDirect.AxIntegratorService.exe
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\CandyDirect.AxIntegratorService.pdb
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AppServices.dll
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\CandyDirect.AppServices.pdb
