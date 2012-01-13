@@ -15,8 +15,8 @@ CREATE TABLE [dbo].[CandyDirectProcessedOrders](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CreatedAt] [datetime] NULL,
 	[Store] [varchar](50) NULL,
-	[StoreEntityId] [varbinary](50) NULL,
-	[OrderNumber] [varbinary](100) NULL,
+	[StoreEntityId] [varchar](50) NULL,
+	[OrderNumber] [varchar](100) NULL,
  CONSTRAINT [PK_CandyDirectProcessedOrders] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

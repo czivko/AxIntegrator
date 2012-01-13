@@ -12,8 +12,9 @@ namespace Tests
 		{
 			 Axapta ax;
             AxaptaRecord axRecord;
-            string tableName = "AddressState";
-
+            string tableName = "SalesTable";
+            GetAllRecordsForAxTable(tableName);
+            /*
             // The AddressState field names for calls to
             // the AxRecord.get_field method.
             string strNameField = "NAME";
@@ -45,34 +46,7 @@ namespace Tests
                 }
                  
 
-                // Create a query using the AxaptaRecord class
-                // for the StateAddress table.
-                using (axRecord = ax.CreateAxaptaRecord(tableName))
-                {
-
-                    // Execute the query on the table.
-                    axRecord.ExecuteStmt("select * from %1");
-
-                    // Create output with a title and column headings
-                    // for the returned records.
-                    Console.WriteLine("List of selected records from {0}",
-                        tableName);
-                    Console.WriteLine("{0}\t{1}", strNameField, strStateIdField);
-
-                    // Loop through the set of retrieved records.
-                    while (axRecord.Found)
-                    {
-                        // Retrieve the record data for the specified fields.
-                        fieldName = axRecord.get_Field(strNameField);
-                        fieldStateId = axRecord.get_Field(strStateIdField);
-
-                        // Display the retrieved data.
-                        Console.WriteLine(fieldName + "\t" + fieldStateId);
-
-                        // Advance to the next row.
-                        axRecord.Next();
-                    }
-                }
+                
             }
 
             catch (Exception e)
@@ -80,6 +54,51 @@ namespace Tests
                 Console.WriteLine("Error encountered: {0}", e.Message);
                 // Take other error action as needed.
             }
+            */
 		}
+	
+	    
+		public Axapta Login()
+		{		
+			var ax = new Axapta();
+	        ax.Logon(null, null, null, null);
+	        return ax;
+		}
+		public void GetAllRecordsForAxTable(string tableName)
+		{
+			using (var axRecord = Login().CreateAxaptaRecord(tableName))
+	        {
+	
+	            // Execute the query on the table.
+	            axRecord.ExecuteStmt("select * from %1");
+	
+	            // Create output with a title and column headings
+	            // for the returned records.
+	            Console.WriteLine("List of selected records from {0}",
+	                tableName);
+	            Console.WriteLine("{0}\t{1}", AxSalesOrder.SalesId, AxSalesOrder.SalesName);
+	
+	            // Loop through the set of retrieved records.
+	            while (axRecord.Found)
+	            {
+	            	 
+	                // Retrieve the record data for the specified fields.
+	                var fieldName = axRecord.get_Field(AxSalesOrder.SalesId);
+	                var fieldStateId = axRecord.get_Field(AxSalesOrder.SalesName);
+	
+	                // Display the retrieved data.
+	                Console.WriteLine(fieldName + "\t" + fieldStateId);
+	
+	                // Advance to the next row.
+	                axRecord.Next();
+	            }
+	        }
+		}
+	}
+	
+	public static class AxSalesOrder
+	{
+		public static string SalesId = "SalesId";
+		public static string SalesName = "SalesName";
 	}
 }
