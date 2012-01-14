@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AmazonOrderTests.cs" />
     <Compile Include="AxCreateSalesOrder.cs" />
+    <Compile Include="OrderServiceIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MagentoBasicTestsOverSoapApi.cs" />
   </ItemGroup>
