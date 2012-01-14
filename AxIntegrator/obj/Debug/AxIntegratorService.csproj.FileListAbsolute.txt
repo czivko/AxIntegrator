@@ -8,3 +8,5 @@ C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\CandyDirect.AxIntegratorService.exe
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\obj\Debug\CandyDirect.AxIntegratorService.pdb
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\MagentoApi.dll
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AxIntegrator\bin\Debug\MagentoApi.pdb

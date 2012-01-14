@@ -33,15 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NUnit.Framework">
-      <HintPath>$(SharpDevelopBinPath)\Tools\NUnit\NUnit.Framework.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Dynamics.BusinessConnectorNet" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,13 +48,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmazonStore.cs" />
+    <Compile Include="AxSalesOrder.cs" />
     <Compile Include="DB\ProcessedOrders.cs" />
     <Compile Include="DB\Massive.cs" />
+    <Compile Include="OrdersService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MagentoStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DB" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MagentoApi\MagentoApi.csproj">
+      <Project>{44F1B177-84B1-40BC-8267-CE54D8AFAE82}</Project>
+      <Name>MagentoApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

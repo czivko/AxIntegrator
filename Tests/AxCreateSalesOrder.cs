@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Dynamics.BusinessConnectorNet;
 using NUnit.Framework;
+using CandyDirect.AppServices;
 
 namespace Tests
 {
@@ -10,43 +11,51 @@ namespace Tests
 		[Test]
 		public void CanCreateANewSalesOrder()
 		{
-			 Axapta ax;
-            AxaptaRecord axRecord;
             string tableName = "SalesTable";
-            GetAllRecordsForAxTable(tableName);
-            /*
-            // The AddressState field names for calls to
-            // the AxRecord.get_field method.
-            string strNameField = "NAME";
-            string strStateIdField = "STATEID";
-
-            // The output variables for calls to the 
-            // AxRecord.get_Field method.
-            object fieldName, fieldStateId;
-
+             var id = "Magento6";
             try
-            {
-                // Login to Microsoft Dynamics AX.
-                ax = new Axapta();
-                ax.Logon(null, null, null, null);
-
-                AxaptaRecord axRecord1;
-                // Create a new AddressState table record.
-                using (axRecord1 = ax.CreateAxaptaRecord(tableName)) 
+            { 
+            	using (var rec = Login().CreateAxaptaRecord(tableName))
                 {
-                     
+                   
                     // Provide values for each of the AddressState record fields.
-                    axRecord1.set_Field("NAME", "MyState2");
-                    axRecord1.set_Field("STATEID", "MyState2");
-                    axRecord1.set_Field("COUNTRYREGIONID", "US");
-                    axRecord1.set_Field("INTRASTATCODE", "");
+                    AxSalesOrder.BuildDefaults(rec);
+                    
+					rec.set_Field(AxSalesOrder.SalesId, id);
+					rec.set_Field(AxSalesOrder.DeliveryAddress , @"3035 Berkeley Cir" + System.Environment.NewLine + "Los Angeles, CA 90026");
+					rec.set_Field(AxSalesOrder.DeliveryName,"Charles Zivko");
+					rec.set_Field(AxSalesOrder.DeliveryStreet, "3035 Berkely Cir");
+					rec.set_Field(AxSalesOrder.DeliveryCity, "Los Angeles");
+					rec.set_Field(AxSalesOrder.DeliveryState, "CA");
+					rec.set_Field(AxSalesOrder.DeliveryZipCode, "90026");
+					rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, "US");
 
+					
+                    
                     // Commit the record to the database.
-                    //axRecord1.Insert();
-                }
-                 
-
-                
+                    rec.Insert();
+                }   
+            	using(var rec = Login().CreateAxaptaRecord("SalesLine"))
+            	{
+            		AxSalesOrder.LineBuildDefaults(rec);
+            		
+            		rec.set_Field(AxSalesOrder.SalesId, id);
+            		rec.set_Field(AxSalesOrder.LineNumber, 1m);
+            		rec.set_Field(AxSalesOrder.LineItemId, "1113316-AP");
+            		rec.set_Field(AxSalesOrder.LineItemName, "Hershey's Kisses  Original  Green & Silver Foil, 5 pounds");
+            		rec.set_Field(AxSalesOrder.LineQuantityOrdered, 1m);
+            		rec.set_Field(AxSalesOrder.LineRemainSalesPhysical, 1m);
+            		rec.set_Field(AxSalesOrder.LineSalesQuantity, 1.00m);
+            		rec.set_Field(AxSalesOrder.LineRemainInventoryPhyscal, 1.00m);
+            		rec.set_Field(AxSalesOrder.LineSealesPrice, 36.00m);
+            		rec.set_Field(AxSalesOrder.LineAmount, 36.00m);
+            		rec.set_Field(AxSalesOrder.LineSalesUnit, "5.0 BAG");
+            		
+            		
+            		
+            		
+            		rec.Insert();
+            	}
             }
 
             catch (Exception e)
@@ -54,10 +63,16 @@ namespace Tests
                 Console.WriteLine("Error encountered: {0}", e.Message);
                 // Take other error action as needed.
             }
-            */
+           
 		}
 	
-	    
+	    [Test]
+		public void CanGetSalesOrderFromAx()
+		{ 
+            string tableName = "SalesTable";
+            GetAllRecordsForAxTable(tableName);
+		}
+		
 		public Axapta Login()
 		{		
 			var ax = new Axapta();
@@ -96,9 +111,5 @@ namespace Tests
 		}
 	}
 	
-	public static class AxSalesOrder
-	{
-		public static string SalesId = "SalesId";
-		public static string SalesName = "SalesName";
-	}
+
 }
