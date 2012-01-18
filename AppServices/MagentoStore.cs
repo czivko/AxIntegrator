@@ -36,8 +36,8 @@ namespace CandyDirect.AppServices
 		public SalesOrder MapOrderFromStore(salesOrderEntity magentoOrder)
 		{
 			var order = new SalesOrder();
-			order.OrderId = magentoOrder.order_id;
-			order.NativeId = magentoOrder.increment_id;
+			order.OrderId = magentoOrder.increment_id;
+			order.NativeId = magentoOrder.order_id;
 			order.CustomerName = magentoOrder.customer_firstname + " " + magentoOrder.customer_lastname;
 			order.Street = magentoOrder.shipping_address.street;
 			order.City = magentoOrder.shipping_address.city;

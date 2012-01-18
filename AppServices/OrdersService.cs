@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CandyDirect.AppServices.DB;
 using Microsoft.Dynamics.BusinessConnectorNet;
 
 namespace CandyDirect.AppServices
@@ -9,7 +10,15 @@ namespace CandyDirect.AppServices
 		private Axapta Login()
 		{		
 			var ax = new Axapta();
-	        ax.Logon(null, null, null, null);
+			var adUser = System.Configuration.ConfigurationManager.AppSettings["AxUserName"];
+			var adPass = System.Configuration.ConfigurationManager.AppSettings["AxUserPass"];
+			if(adUser == null || adPass == null)
+				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings. in the config file");
+			
+			System.Net.NetworkCredential creds = new System.Net.NetworkCredential(
+				adUser,adPass, "candydirect.com");
+				ax.LogonAs("czivko","candydirect.com",creds,null,null,null,null);
+	        //ax.Logon(null, null, null, null);
 	        return ax;
 		}
 		
@@ -23,6 +32,7 @@ namespace CandyDirect.AppServices
 			using(var store = new MagentoStore())
 			{
 				var orders = store.GetNewOrders();
+				NLog.LogManager.GetCurrentClassLogger().Info("New magento orders: {0}", orders.Count);
 				orders.ForEach(x => CreateAxSalesOrder(x));
 			}
 		}
@@ -43,7 +53,7 @@ namespace CandyDirect.AppServices
 					rec.set_Field(AxSalesOrder.DeliveryName,order.CustomerName);
 					rec.set_Field(AxSalesOrder.DeliveryStreet, order.Street);
 					rec.set_Field(AxSalesOrder.DeliveryCity, order.City);
-					rec.set_Field(AxSalesOrder.DeliveryState, order.Street);
+					rec.set_Field(AxSalesOrder.DeliveryState, order.State);
 					rec.set_Field(AxSalesOrder.DeliveryZipCode, order.Zip);
 					rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.Country);
 
@@ -74,13 +84,27 @@ namespace CandyDirect.AppServices
             		}
             	}
             	
+            	CreateProcessedOrder(order, "Magento");
+            	
             }
 
             catch (Exception e)
             {
                 Console.WriteLine("Error encountered: {0}", e.Message);
+                NLog.LogManager.GetCurrentClassLogger().Error(e);
                 // Take other error action as needed.
             }
+		}
+		
+		public void CreateProcessedOrder(SalesOrder order, string store)
+		{
+			var processedOrder = new ProcessedOrders();
+			var newId = processedOrder.Insert(new {
+			                                  	Store = store, 
+			                                  	StoreEntityId = order.NativeId, 
+			                                  	OrderNumber = order.OrderId, 
+			                                  	CreatedAt = DateTime.Now
+			                                  });
 		}
 	}
 }

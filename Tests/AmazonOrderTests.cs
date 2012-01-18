@@ -14,27 +14,12 @@ namespace Tests
 	public class AmazonOrderTests
 	{
 		
-	   MarketplaceWebServiceOrdersConfig config = new MarketplaceWebServiceOrdersConfig();
-        String accessKeyId = "AKIAIZAIBEDEFFEWL3OA";
-        String secretAccessKey = "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";
-        String merchantId = "A3FFNVBB2U6OUI";
-        String marketplaceId = "ATVPDKIKX0DER";
-        const string applicationName = "CandyDirect.AxIntegrator";
-        const string applicationVersion = "1.0";
+	     
             
 		[Test]
 		public void ShouldGetNewOrders()
 		{
-			config.ServiceURL = "https://mws.amazonservices.com/Orders/2011-01-01";
-			MarketplaceWebServiceOrders.MarketplaceWebServiceOrders service = new MarketplaceWebServiceOrdersClient(
-                applicationName, applicationVersion, accessKeyId, secretAccessKey, config);
 			 
-			ListOrdersRequest request = new ListOrdersRequest();
-            request.CreatedAfter = DateTime.Now.AddDays(-1);
-            request.MarketplaceId = new MarketplaceIdList();
-            request.MarketplaceId.Id = new List<string>(new string[] { marketplaceId });
-            request.SellerId = merchantId;
-            ListOrdersSample.InvokeListOrders(service, request);
             
 			var store = new AmazonStore();
 			var results = store.GetNewOrders();
