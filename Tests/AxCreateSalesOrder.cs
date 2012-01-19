@@ -19,7 +19,7 @@ namespace Tests
                 {
                    
                     // Provide values for each of the AddressState record fields.
-                    AxSalesOrder.BuildDefaults(rec);
+                    AxSalesOrder.BuildDefaults(rec,"Magento");
                     
 					rec.set_Field(AxSalesOrder.SalesId, id);
 					rec.set_Field(AxSalesOrder.DeliveryAddress , @"3035 Berkeley Cir" + System.Environment.NewLine + "Los Angeles, CA 90026");
@@ -37,7 +37,7 @@ namespace Tests
                 }   
             	using(var rec = Login().CreateAxaptaRecord("SalesLine"))
             	{
-            		AxSalesOrder.LineBuildDefaults(rec);
+            		AxSalesOrder.LineBuildDefaults(rec, "Magento");
             		
             		rec.set_Field(AxSalesOrder.SalesId, id);
             		rec.set_Field(AxSalesOrder.LineNumber, 1m);

@@ -9,4 +9,7 @@ namespace CandyDirect.AppServices.DB
     	public ProcessedOrders():base("CandyDirectAx", "CandyDirectProcessedOrders","Id") {}
 
 	}
+	
+
+
 }

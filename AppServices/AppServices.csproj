@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="AmazonStore.cs" />
     <Compile Include="AxSalesOrder.cs" />
+    <Compile Include="DB\AmazonOrders.cs" />
+    <Compile Include="DB\InventTableModule.cs" />
     <Compile Include="DB\ProcessedOrders.cs" />
     <Compile Include="DB\Massive.cs" />
     <Compile Include="OrdersService.cs" />
@@ -78,6 +80,9 @@
       <Project>72427710-412B-499C-981C-DFAE38960FC1</Project>
       <Name>MarketplaceWebServiceOrders</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB\Create_CandyDirectAmazonOrders.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
 </Project>

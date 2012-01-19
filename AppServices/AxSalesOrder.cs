@@ -21,7 +21,9 @@ namespace CandyDirect.AppServices
 		public string State {get; set;}
 		public string Zip {get; set;}
 		public string Country {get; set;}
-		
+		public string StoreStatus {get; set;}
+		public DateTime StoreCreatedAt {get; set;}
+				
 		public List<SalesLine> LineItems { get {return _lineItems;}}
 		
 		public void AddLineItem(string itemSku, string itemName, decimal quantity, decimal price, decimal storeTotal, string unitOfMeasure)
@@ -55,12 +57,12 @@ namespace CandyDirect.AppServices
 	}
 	public static class AxSalesOrder
 	{
-		public static void BuildDefaults(AxaptaRecord rec)
+		public static void BuildDefaults(AxaptaRecord rec, string storeName)
 		{
 			
-            rec.set_Field(AxSalesOrder.SalesName, "Charles Zivko");
-            rec.set_Field(AxSalesOrder.CustomerAccountId, "magento");
-            rec.set_Field(AxSalesOrder.InvoiceAccountId, "magento");
+            
+            rec.set_Field(AxSalesOrder.CustomerAccountId, storeName);
+            rec.set_Field(AxSalesOrder.InvoiceAccountId, storeName);
             rec.set_Field(AxSalesOrder.CurrencyCode, "USD");
             rec.set_Field(AxSalesOrder.Payment, "CBS");
             rec.set_Field(AxSalesOrder.CustomerGroup, "Magento");
@@ -72,11 +74,11 @@ namespace CandyDirect.AppServices
 			rec.set_Field(AxSalesOrder.LanguageId, "EN-US");
 		}
 		
-		public static void LineBuildDefaults(AxaptaRecord rec)
+		public static void LineBuildDefaults(AxaptaRecord rec, string storeName)
 		{
 			rec.set_Field(AxSalesOrder.SalesStatus, 1);
-    		rec.set_Field(AxSalesOrder.CustomerGroup, "Magento");
-    		rec.set_Field(AxSalesOrder.CustomerAccountId, "magetno");
+    		rec.set_Field(AxSalesOrder.CustomerGroup, storeName);
+    		rec.set_Field(AxSalesOrder.CustomerAccountId, storeName);
     		rec.set_Field(AxSalesOrder.LineInvetoryDimId, "000001");
     		rec.set_Field(AxSalesOrder.CurrencyCode, "USD");
     		rec.set_Field(AxSalesOrder.SalesType, 3);

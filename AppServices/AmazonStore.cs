@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using CandyDirect.AppServices.DB;
 using MarketplaceWebServiceOrders;
+using MarketplaceWebServiceOrders.Fetcher;
 using MarketplaceWebServiceOrders.Model;
 
 namespace CandyDirect.AppServices
@@ -17,15 +21,19 @@ namespace CandyDirect.AppServices
         String marketplaceId = "ATVPDKIKX0DER";
         const string applicationName = "CandyDirect.AxIntegrator";
         const string applicationVersion = "1.0";
+        MarketplaceWebServiceOrders.MarketplaceWebServiceOrders service;
         
 		public AmazonStore()
 		{
+			config.ServiceURL = "https://mws.amazonservices.com/Orders/2011-01-01";
+			service = new MarketplaceWebServiceOrdersClient(
+                applicationName, applicationVersion, accessKeyId, secretAccessKey, config);
 		}
 		
 		public List<SalesOrder> GetNewOrders()
 		{
             var orders = new List<SalesOrder>();
-			foreach(var amazonOrder in GetNewAmazonOrders())
+			foreach(var amazonOrder in GetNewAmazonOrdersViaFecther())
 			{
 				orders.Add(MapOrderFromStore(amazonOrder));//GetAmazonOrderDetails(magentoOrder.increment_id)));
 			}
@@ -33,41 +41,112 @@ namespace CandyDirect.AppServices
 			return orders;
 		}
 		
+		public List<SalesOrder> GetUnprocessedOrders()
+		{
+			var salesOrder = new List<SalesOrder>();
+			var table = new AmazonOrders();
+			var unprocessedOrders = table.Query(@"select ao.* from CandyDirectAmazonOrders ao 
+											left join CandyDirectProcessedOrders po on ao.ordernumber = po.ordernumber 
+											where po.id is null 
+											and ao.StoreStatus <> 'Canceled' and ao.StoreStatus <> 'Pending'");
+			unprocessedOrders.ToList().ForEach(x => salesOrder.Add(MapFromAmazonCache(x)));
+			salesOrder.ForEach( x => GetOrderItems(x));
+			return salesOrder;
+		}
+		
+		public void GetOrderItems(SalesOrder salesOrder)
+		{
+			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
+			
+            fetcher.FetchOrderItems(salesOrder.NativeId, delegate(OrderItem item)
+            {
+                // Process order item here.
+                Console.WriteLine("\t" + item.ToString());
+                
+                salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount),
+                                       item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),null);
+            });
+
+                Console.WriteLine("=================================================");
+                Console.WriteLine();
+		}
+		
+		public SalesOrder MapFromAmazonCache(dynamic amazonOrder)
+		{
+			var order = new SalesOrder();
+			order.OrderId = amazonOrder.OrderNumber;
+			order.NativeId = amazonOrder.StoreEntityId;
+			order.StoreStatus = amazonOrder.StoreStatus;
+			order.StoreCreatedAt = amazonOrder.StoreCreatedAt;
+			order.CustomerName = amazonOrder.CustomerName;
+			order.Street =amazonOrder.ShipStreet;
+			order.City = amazonOrder.ShipCity;
+			order.State = amazonOrder.ShipState;
+			order.Zip = amazonOrder.ShipZip;
+			order.Country = amazonOrder.ShipCountry;
+			
+			return order;
+		}
 		public SalesOrder MapOrderFromStore(Order amazonOrder)
 		{
 			var order = new SalesOrder();
-			order.OrderId = amazonOrder.SellerOrderId;
+			order.OrderId = amazonOrder.AmazonOrderId;
 			order.NativeId = amazonOrder.AmazonOrderId;
+			order.StoreStatus = amazonOrder.OrderStatus.ToString();
+			order.StoreCreatedAt = amazonOrder.PurchaseDate;
+	
 			if(amazonOrder.IsSetShippingAddress())
 			{
-			order.CustomerName = amazonOrder.ShippingAddress.Name;
-			order.Street =amazonOrder.ShippingAddress.AddressLine1 + " " + amazonOrder.ShippingAddress.AddressLine2 + " " + amazonOrder.ShippingAddress.AddressLine3;
-			order.City = amazonOrder.ShippingAddress.City;
-			order.State = amazonOrder.ShippingAddress.StateOrRegion;
-			order.Zip = amazonOrder.ShippingAddress.PostalCode;
-			order.Country = amazonOrder.ShippingAddress.CountryCode;
+				order.CustomerName = amazonOrder.ShippingAddress.Name;
+				order.Street = amazonOrder.ShippingAddress.AddressLine1;
+				if(!String.IsNullOrWhiteSpace(amazonOrder.ShippingAddress.AddressLine2))
+				   order.Street += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine2;
+				if(!String.IsNullOrWhiteSpace(amazonOrder.ShippingAddress.AddressLine3))
+					order.Street += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine3;
+				order.City = amazonOrder.ShippingAddress.City;
+				order.State = amazonOrder.ShippingAddress.StateOrRegion;
+				order.Zip = amazonOrder.ShippingAddress.PostalCode;
+				order.Country = amazonOrder.ShippingAddress.CountryCode;
 			}
-			else
-				order.Street = "na";
-			/*
-			foreach(var line in magentoOrder.items)
-			{
-				order.AddLineItem(line.sku, line.name, Decimal.Parse(line.qty_ordered),
-				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), "");
-			}
-			*/
 			
 			return order;
 		}
 		
+		public List<Order> GetNewAmazonOrdersViaFecther()
+		{
+			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
+			List<Order> orders = new List<Order>();
+            // Process each order as it comes in
+            fetcher.ProcessOrder += delegate(Order order)
+            {
+            	orders.Add(order);
+                Console.WriteLine(order.ToString());
+                // Fetch the order items in each order
+                /*fetcher.FetchOrderItems(order.AmazonOrderId, delegate(OrderItem item)
+                {
+                    // Process order item here.
+                    Console.WriteLine("\t" + item.ToString());
+                });
+*/
+                Console.WriteLine("=================================================");
+                Console.WriteLine();
+            };
+
+            // Fetch all orders from 1 day ago
+            fetcher.FetchOrders(DateTime.Now.Subtract(TimeSpan.FromDays(7)));
+			return orders;
+		}
 		public List<Order> GetNewAmazonOrders()
 		{ 
-			config.ServiceURL = "https://mws.amazonservices.com/Orders/2011-01-01";
-			MarketplaceWebServiceOrders.MarketplaceWebServiceOrders service = new MarketplaceWebServiceOrdersClient(
-                applicationName, applicationVersion, accessKeyId, secretAccessKey, config);
+			
 			 
-			ListOrdersRequest request = new ListOrdersRequest();
-            request.CreatedAfter = DateTime.Now.AddDays(-1);
+			ListOrdersByNextTokenRequest tokenRequest = new ListOrdersByNextTokenRequest();
+			//tokenRequest.
+			ListOrdersRequest request = new ListOrdersRequest(); 
+			var mr = new MaxResults();
+			mr.Value = 100;
+			request.MaxResultsPerPage = mr;
+            request.CreatedAfter = DateTime.Now.AddDays(-17);
             request.MarketplaceId = new MarketplaceIdList();
             request.MarketplaceId.Id = new List<string>(new string[] { marketplaceId });
             request.SellerId = merchantId;
@@ -76,11 +155,30 @@ namespace CandyDirect.AppServices
 			if(response.IsSetListOrdersResult())
 			{
 				ListOrdersResult  listOrdersResult = response.ListOrdersResult;
+			    
 				var nextToken = listOrdersResult.NextToken;
-				return listOrdersResult.Orders.Order;
+				NLog.LogManager.GetCurrentClassLogger().Info(" listOrdersResult.NextToken => {0}", nextToken);
+				List<Order> orderList = listOrdersResult.Orders.Order;
+				if(!String.IsNullOrWhiteSpace(nextToken))
+				   GetNextTokenOrders(nextToken, orderList);
+				return orderList;
 			}
 			
 			return null;
+		}
+		
+		public void GetNextTokenOrders(string nextToken, List<Order> orderList)
+		{
+			ListOrdersByNextTokenRequest tokenRequest = new ListOrdersByNextTokenRequest();
+			tokenRequest.NextToken = nextToken;
+			tokenRequest.SellerId = merchantId;
+			ListOrdersByNextTokenResponse response = service.ListOrdersByNextToken(tokenRequest);
+			orderList.AddRange(response.ListOrdersByNextTokenResult.Orders.Order);
+			NLog.LogManager.GetCurrentClassLogger().Info(" Totalorders => {0}  :: GetNextTokenOrders.NextToken => {1}  ",
+			                                             orderList.Count, response.ListOrdersByNextTokenResult.NextToken);
+			if(!String.IsNullOrWhiteSpace(response.ListOrdersByNextTokenResult.NextToken))
+				   GetNextTokenOrders(nextToken, orderList);
+			//return orderList;
 		}
 		public bool UpdateOrderAsShipped(string orderId)
 		{
@@ -98,5 +196,14 @@ namespace CandyDirect.AppServices
 		}
 		
 		
+	}
+	
+	public static class OrderExtensions
+	{
+		public static string GetStringValue(Enum num)
+		{
+			
+			return  "";
+		}
 	}
 }
