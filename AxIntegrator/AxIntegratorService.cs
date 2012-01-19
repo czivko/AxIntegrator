@@ -55,7 +55,7 @@ namespace CandyDirect.AxIntegrator
           	try
       		{
             	NLog.LogManager.GetCurrentClassLogger().Info("AxIntegratorService.GetNewOrders()");
-            	orderService.ProcessNewMagentoOrders();
+            	orderService.ProcessNewOrders();
                 
                 Thread.Sleep(checkForNewOrdersInterval);                
                 

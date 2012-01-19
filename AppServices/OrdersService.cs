@@ -69,48 +69,53 @@ namespace CandyDirect.AppServices
 		{
             try
             { 
-            	using (var rec = Login().CreateAxaptaRecord("SalesTable"))
-                {
-                   
-                    // Provide values for each of the AddressState record fields.
-                    AxSalesOrder.BuildDefaults(rec,storeName);
-                    
-					rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
-					rec.set_Field(AxSalesOrder.DeliveryAddress , order.Street + System.Environment.NewLine + 
-					             order.City + ", " + order.State + " " + order.Zip );
-					rec.set_Field(AxSalesOrder.SalesName, order.CustomerName);
-					rec.set_Field(AxSalesOrder.DeliveryName,order.CustomerName);
-					rec.set_Field(AxSalesOrder.DeliveryStreet, order.Street);
-					rec.set_Field(AxSalesOrder.DeliveryCity, order.City);
-					rec.set_Field(AxSalesOrder.DeliveryState, order.State);
-					rec.set_Field(AxSalesOrder.DeliveryZipCode, order.Zip);
-					rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.Country);
-
-					
-                    
-                    // Commit the record to the database.
-                    rec.Insert();
-                }   
-            	foreach (var line in order.LineItems) 
+            	using(var ax = Login())
             	{
-            		using(var rec = Login().CreateAxaptaRecord("SalesLine"))
-            		{
-	            		AxSalesOrder.LineBuildDefaults(rec, storeName);
-	            		// ToDo: need to verfiy what get from the store is the same in Ax or send alert
-	            		rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
-	            		rec.set_Field(AxSalesOrder.LineNumber, line.LineNumber);
-	            		rec.set_Field(AxSalesOrder.LineItemId, line.ItemSku);
-	            		rec.set_Field(AxSalesOrder.LineItemName, line.ItemSku);
-	            		rec.set_Field(AxSalesOrder.LineQuantityOrdered, line.Quantity);
-	            		rec.set_Field(AxSalesOrder.LineRemainSalesPhysical, line.Quantity);
-	            		rec.set_Field(AxSalesOrder.LineSalesQuantity, line.Quantity);
-	            		rec.set_Field(AxSalesOrder.LineRemainInventoryPhyscal, line.Quantity);
-	            		rec.set_Field(AxSalesOrder.LineSealesPrice, line.Price);
-	            		rec.set_Field(AxSalesOrder.LineAmount, line.StoreTotal);
-	            		// need to look up in ax rec.set_Field(AxSalesOrder.LineSalesUnit, "5.0 BAG");
-		            		
-	            		rec.Insert();
-            		}
+            		ax.TTSBegin();
+            	
+	            	using (var rec = ax.CreateAxaptaRecord("SalesTable"))
+	                {
+	                   
+	                    // Provide values for each of the AddressState record fields.
+	                    AxSalesOrder.BuildDefaults(rec,storeName);
+	                    
+						rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
+						rec.set_Field(AxSalesOrder.DeliveryAddress , order.Street + System.Environment.NewLine + 
+						             order.City + ", " + order.State + " " + order.Zip );
+						rec.set_Field(AxSalesOrder.SalesName, order.CustomerName);
+						rec.set_Field(AxSalesOrder.DeliveryName,order.CustomerName);
+						rec.set_Field(AxSalesOrder.DeliveryStreet, order.Street);
+						rec.set_Field(AxSalesOrder.DeliveryCity, order.City);
+						rec.set_Field(AxSalesOrder.DeliveryState, order.State);
+						rec.set_Field(AxSalesOrder.DeliveryZipCode, order.Zip);
+						rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.Country);
+	
+	                    rec.Insert();
+	                }   
+	            	foreach (var line in order.LineItems) 
+	            	{
+	            		using(var rec = ax.CreateAxaptaRecord("SalesLine"))
+	            		{
+		            		AxSalesOrder.LineBuildDefaults(rec, storeName);
+		            		// ToDo: need to verfiy what get from the store is the same in Ax or send alert
+		            		rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
+		            		rec.set_Field(AxSalesOrder.LineNumber, line.LineNumber);
+		            		rec.set_Field(AxSalesOrder.LineItemId, line.ItemSku);
+		            		rec.set_Field(AxSalesOrder.LineItemName, line.ItemSku);
+		            		rec.set_Field(AxSalesOrder.LineQuantityOrdered, line.Quantity);
+		            		rec.set_Field(AxSalesOrder.LineRemainSalesPhysical, line.Quantity);
+		            		rec.set_Field(AxSalesOrder.LineSalesQuantity, line.Quantity);
+		            		rec.set_Field(AxSalesOrder.LineRemainInventoryPhyscal, line.Quantity);
+		            		rec.set_Field(AxSalesOrder.LineSealesPrice, line.Price);
+		            		rec.set_Field(AxSalesOrder.LineAmount, line.StoreTotal);
+		            		if(!String.IsNullOrWhiteSpace(line.UnitOfMeasure))
+		            			rec.set_Field(AxSalesOrder.LineSalesUnit, line.UnitOfMeasure);
+			            		
+		            		rec.Insert();
+	            		}
+	            	}
+	            	
+	            	ax.TTSCommit();
             	}
             	
             	CreateProcessedOrder(order, storeName);
@@ -118,10 +123,8 @@ namespace CandyDirect.AppServices
             }
 
             catch (Exception e)
-            {
-                Console.WriteLine("Error encountered: {0}", e.Message);
+            {                
                 NLog.LogManager.GetCurrentClassLogger().Error(e);
-                // Take other error action as needed.
             }
 		}
 		

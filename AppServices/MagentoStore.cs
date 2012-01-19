@@ -44,11 +44,11 @@ namespace CandyDirect.AppServices
 			order.State = magentoOrder.shipping_address.region;
 			order.Zip = magentoOrder.shipping_address.postcode;
 			order.Country = magentoOrder.shipping_address.country_id;
-			
+			OrderService orderService = new OrderService();
 			foreach(var line in magentoOrder.items)
 			{
 				order.AddLineItem(line.sku, line.name, Decimal.Parse(line.qty_ordered),
-				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), "");
+				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), orderService.GetItemSalesUoM(line.sku));
 			}
 			
 			return order;

@@ -38,7 +38,7 @@ namespace MarketplaceWebServiceOrders.Fetcher
         /// <summary>
         /// Default throttling limit for ListOrders calls; default to 1 per 12 seconds.
         /// </summary>
-        private const int LIST_ORDERS_DEFAULT_THROTTLE_LIMIT = 12 * 1000;
+        private const int LIST_ORDERS_DEFAULT_THROTTLE_LIMIT = 60 * 1000;
 
         /// <summary>
         /// Default throttling limit for ListOrderItems calls; default to 1 per 10 minutes.
@@ -210,8 +210,7 @@ namespace MarketplaceWebServiceOrders.Fetcher
                 {
                     // If the request is throttled, wait and try again.
                     if (ordersErr.ErrorCode == "RequestThrottled")
-                    {
-                        Console.WriteLine("Request is throttled; waiting...");
+                    {                        
 						NLog.LogManager.GetCurrentClassLogger().Info("Request is throttled; waiting for {0}", throttledWaitTime / 1000);                        
                         retryRequest = true;
                         System.Threading.Thread.Sleep(throttledWaitTime);

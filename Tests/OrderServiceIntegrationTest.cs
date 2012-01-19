@@ -19,6 +19,14 @@ namespace Tests
 		}
 		
 		[Test]
+		public void ProcessAmazonOrders()
+		{
+			//things to fix, address white space for addtional lines, net amount not set, UoM
+			var orderService = new OrderService();
+			orderService.ProcessAmazonOrders();
+		}
+		
+		[Test]
 		public void GetItemSalesUoM()
 		{
 			var service = new OrderService();

@@ -57,18 +57,18 @@ namespace CandyDirect.AppServices
 		public void GetOrderItems(SalesOrder salesOrder)
 		{
 			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
-			
+			var orderService = new OrderService();
             fetcher.FetchOrderItems(salesOrder.NativeId, delegate(OrderItem item)
             {
                 // Process order item here.
-                Console.WriteLine("\t" + item.ToString());
+                NLog.LogManager.GetCurrentClassLogger().Info(item.ToString());
                 
                 salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount),
-                                       item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),null);
+                                       item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),
+                                       orderService.GetItemSalesUoM(item.SellerSKU));
             });
 
-                Console.WriteLine("=================================================");
-                Console.WriteLine();
+                NLog.LogManager.GetCurrentClassLogger().Info("=================================================");               
 		}
 		
 		public SalesOrder MapFromAmazonCache(dynamic amazonOrder)
@@ -120,28 +120,22 @@ namespace CandyDirect.AppServices
             fetcher.ProcessOrder += delegate(Order order)
             {
             	orders.Add(order);
-                Console.WriteLine(order.ToString());
-                // Fetch the order items in each order
-                /*fetcher.FetchOrderItems(order.AmazonOrderId, delegate(OrderItem item)
-                {
-                    // Process order item here.
-                    Console.WriteLine("\t" + item.ToString());
-                });
-*/
-                Console.WriteLine("=================================================");
-                Console.WriteLine();
+                NLog.LogManager.GetCurrentClassLogger().Info(order.ToString());
+                
+                NLog.LogManager.GetCurrentClassLogger().Info("=================================================");
             };
 
-            // Fetch all orders from 1 day ago
+            // Fetch all orders from 7 day ago
             fetcher.FetchOrders(DateTime.Now.Subtract(TimeSpan.FromDays(7)));
 			return orders;
 		}
+		/* can delete the fecther replaced this
 		public List<Order> GetNewAmazonOrders()
 		{ 
 			
 			 
 			ListOrdersByNextTokenRequest tokenRequest = new ListOrdersByNextTokenRequest();
-			//tokenRequest.
+			 
 			ListOrdersRequest request = new ListOrdersRequest(); 
 			var mr = new MaxResults();
 			mr.Value = 100;
@@ -180,6 +174,7 @@ namespace CandyDirect.AppServices
 				   GetNextTokenOrders(nextToken, orderList);
 			//return orderList;
 		}
+		*/
 		public bool UpdateOrderAsShipped(string orderId)
 		{
 			return true;

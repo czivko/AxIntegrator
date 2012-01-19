@@ -42,13 +42,7 @@ namespace Tests
 			twoLines.First().LineItems.Count.ShouldBe(2);
 		}
 		
-		[Test]
-		public void ProcessAmazonOrders()
-		{
-			//things to fix, address white space for addtional lines, net amount not set, UoM
-			var orderService = new OrderService();
-			orderService.ProcessAmazonOrders();
-		}
+		
 	}
 
 }
