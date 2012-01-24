@@ -9,9 +9,6 @@ using MarketplaceWebServiceOrders.Model;
 
 namespace CandyDirect.AppServices
 {
-	/// <summary>
-	/// Description of AmazonStore.
-	/// </summary>
 	public class AmazonStore
 	{
 		MarketplaceWebServiceOrdersConfig config = new MarketplaceWebServiceOrdersConfig();
@@ -33,10 +30,17 @@ namespace CandyDirect.AppServices
 		public List<SalesOrder> GetNewOrders()
 		{
             var orders = new List<SalesOrder>();
+			/* looks like just getting the date last updated is find since it gets that date on create to right away
 			foreach(var amazonOrder in GetNewAmazonOrdersViaFecther())
 			{
-				orders.Add(MapOrderFromStore(amazonOrder));//GetAmazonOrderDetails(magentoOrder.increment_id)));
+				orders.Add(MapOrderFromStore(amazonOrder));
 			}
+			*/
+			foreach(var amazonOrder in GetUpdatedAmazonOrdersViaFecther())
+			{
+				orders.Add(MapOrderFromStore(amazonOrder));
+			}
+			
 			
 			return orders;
 		}
@@ -60,15 +64,12 @@ namespace CandyDirect.AppServices
 			var orderService = new OrderService();
             fetcher.FetchOrderItems(salesOrder.NativeId, delegate(OrderItem item)
             {
-                // Process order item here.
                 NLog.LogManager.GetCurrentClassLogger().Info(item.ToString());
                 
                 salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount),
                                        item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),
                                        orderService.GetItemSalesUoM(item.SellerSKU));
-            });
-
-                NLog.LogManager.GetCurrentClassLogger().Info("=================================================");               
+            });           
 		}
 		
 		public SalesOrder MapFromAmazonCache(dynamic amazonOrder)
@@ -78,6 +79,7 @@ namespace CandyDirect.AppServices
 			order.NativeId = amazonOrder.StoreEntityId;
 			order.StoreStatus = amazonOrder.StoreStatus;
 			order.StoreCreatedAt = amazonOrder.StoreCreatedAt;
+			order.StoreUpdatedAt = amazonOrder.StoreUpdatedAt;
 			order.CustomerName = amazonOrder.CustomerName;
 			order.Street =amazonOrder.ShipStreet;
 			order.City = amazonOrder.ShipCity;
@@ -94,6 +96,7 @@ namespace CandyDirect.AppServices
 			order.NativeId = amazonOrder.AmazonOrderId;
 			order.StoreStatus = amazonOrder.OrderStatus.ToString();
 			order.StoreCreatedAt = amazonOrder.PurchaseDate;
+			order.StoreUpdatedAt = amazonOrder.LastUpdateDate;
 	
 			if(amazonOrder.IsSetShippingAddress())
 			{
@@ -114,20 +117,29 @@ namespace CandyDirect.AppServices
 		
 		public List<Order> GetNewAmazonOrdersViaFecther()
 		{
-			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
 			List<Order> orders = new List<Order>();
-            // Process each order as it comes in
-            fetcher.ProcessOrder += delegate(Order order)
+            GetFecther(orders).FetchNewOrders(DateTime.Now.Subtract(TimeSpan.FromDays(1)));
+			return orders;
+		}
+		
+		public List<Order> GetUpdatedAmazonOrdersViaFecther()
+		{
+			List<Order> orders = new List<Order>();
+            GetFecther(orders).FetchUpatedOrders(DateTime.Now.Subtract(TimeSpan.FromDays(1)));
+			return orders;
+		}
+		
+		public OrderFetcher GetFecther(List<Order> orders)
+		{
+			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
+			fetcher.ProcessOrder += delegate(Order order)
             {
             	orders.Add(order);
-                NLog.LogManager.GetCurrentClassLogger().Info(order.ToString());
-                
-                NLog.LogManager.GetCurrentClassLogger().Info("=================================================");
+                NLog.LogManager.GetCurrentClassLogger().Info(order.ToString());                
             };
+			
+			return fetcher;
 
-            // Fetch all orders from 7 day ago
-            fetcher.FetchOrders(DateTime.Now.Subtract(TimeSpan.FromDays(7)));
-			return orders;
 		}
 		/* can delete the fecther replaced this
 		public List<Order> GetNewAmazonOrders()

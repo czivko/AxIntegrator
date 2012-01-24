@@ -23,6 +23,7 @@ namespace CandyDirect.AppServices
 		public string Country {get; set;}
 		public string StoreStatus {get; set;}
 		public DateTime StoreCreatedAt {get; set;}
+		public DateTime StoreUpdatedAt {get; set;}
 				
 		public List<SalesLine> LineItems { get {return _lineItems;}}
 		

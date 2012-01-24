@@ -152,6 +152,7 @@ namespace CandyDirect.AppServices
 			                                  	map.StoreEntityId = order.NativeId;
 			                                  	map.OrderNumber = order.OrderId; 			                           
 			                                  	map.StoreCreatedAt = order.StoreCreatedAt;
+			                                  	map.StoreUpdatedAt = order.StoreUpdatedAt;
 			                                  	map.StoreStatus = order.StoreStatus;
 			                                  	map.CustomerName = order.CustomerName;
 			                                  	map.ShipStreet = order.Street;
@@ -162,11 +163,13 @@ namespace CandyDirect.AppServices
 			                                   
 			if(existingOrder == null)
 			{
+				NLog.LogManager.GetCurrentClassLogger().Warn("Create amazon order: {0}", order.OrderId);
 				map.CreatedAt = DateTime.Now;
 				var newId = amazonOrder.Insert(map);
 			}
 			else if(existingOrder.StoreStatus != order.StoreStatus)
 			{
+				NLog.LogManager.GetCurrentClassLogger().Warn("Update amazon order: {0}", order.OrderId);
 				map.Updatedat = DateTime.Now;
 				amazonOrder.Update(map,existingOrder.Id);
 			}

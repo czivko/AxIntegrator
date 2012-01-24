@@ -21,6 +21,11 @@ using MarketplaceWebServiceOrders.Model;
 
 namespace MarketplaceWebServiceOrders.Fetcher
 {    
+	public enum OrderDateType
+	{
+		New = 1,
+		Updated
+	}
     /// <summary>
     /// Sample helper class to Fetch Orders and OrderItems using the Amazon MWS Orders API.
     /// </summary>
@@ -38,7 +43,7 @@ namespace MarketplaceWebServiceOrders.Fetcher
         /// <summary>
         /// Default throttling limit for ListOrders calls; default to 1 per 12 seconds.
         /// </summary>
-        private const int LIST_ORDERS_DEFAULT_THROTTLE_LIMIT = 60 * 1000;
+        private const int LIST_ORDERS_DEFAULT_THROTTLE_LIMIT = 2 * 60 * 1000;
 
         /// <summary>
         /// Default throttling limit for ListOrderItems calls; default to 1 per 10 minutes.
@@ -75,23 +80,28 @@ namespace MarketplaceWebServiceOrders.Fetcher
         /// Fetches all orders created between the starting time and the server's
         /// local system time minus two minutes.
         /// <param name="startTime">The starting time period of orders to fetch.</param>
-        public void FetchOrders(DateTime startTime)
+        public void FetchNewOrders(DateTime startTime)
         {
-            FetchOrders(startTime, DateTime.MinValue);
+            FetchOrders(startTime, OrderDateType.New);
+        }
+        
+        public void FetchUpatedOrders(DateTime startTime)
+        {
+            FetchOrders(startTime, OrderDateType.Updated);
         }
 
         /// <summary>
         /// Fetches all orders created in the given time period and processes them locally.        
         /// <param name="startTime">The starting time period of orders to fetch.</param>
         /// <param name="endTime">The ending time period of orders to fetch.</param>
-        public void FetchOrders(DateTime startTime, DateTime endTime)
+        public void FetchOrders(DateTime time, OrderDateType type)
         {
             ListOrdersRequest request = new ListOrdersRequest();
-            request.CreatedAfter = startTime;
-            if (endTime != DateTime.MinValue)
-            {
-                request.CreatedBefore = endTime;
-            }
+            if(type == OrderDateType.New)
+            	request.CreatedAfter = time;
+            else 
+            	request.LastUpdatedAfter = time;
+            
             request.SellerId = mwsSellerId;
             request.MarketplaceId = new MarketplaceIdList();
             request.MarketplaceId.Id = new List<string>();

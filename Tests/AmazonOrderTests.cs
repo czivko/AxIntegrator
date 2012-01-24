@@ -14,21 +14,25 @@ namespace Tests
 	[TestFixture]
 	public class AmazonOrderTests
 	{
-		
-	     
-            
 		[Test]
 		public void ShouldGetNewOrders()
 		{
-			 
-			
 			var store = new AmazonStore();
 			var results = store.GetNewOrders();
 			 
 			results.Count.ShouldBeGreaterThan(1);
-			
+			results.ForEach(x => Console.WriteLine(x.OrderId));
 			var orderService = new OrderService();
-			results.ForEach(x => orderService.CreateAmazonOrder(x));
+			//results.ForEach(x => orderService.CreateAmazonOrder(x));
+		}
+		
+		[Test] 
+		public void ShouldGetUpdatedOrders()
+		{
+			var store = new AmazonStore();
+			var results = store.GetUpdatedAmazonOrdersViaFecther();
+			
+			results.Count.ShouldBeGreaterThan(1);
 		}
 		
 		[Test]
