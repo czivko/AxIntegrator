@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmazonImportTests.cs" />
     <Compile Include="AmazonOrderTests.cs" />
     <Compile Include="AxCreateSalesOrder.cs" />
     <Compile Include="OrderServiceIntegrationTest.cs" />

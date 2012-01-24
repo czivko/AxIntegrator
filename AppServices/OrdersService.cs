@@ -126,7 +126,8 @@ namespace CandyDirect.AppServices
             {                
                 NLog.LogManager.GetCurrentClassLogger().Error(e);
             }
-		}
+		}	
+		
 		
 		public void CreateProcessedOrder(SalesOrder order, string store)
 		{

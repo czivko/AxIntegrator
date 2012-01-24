@@ -221,7 +221,7 @@ namespace MarketplaceWebServiceOrders.Fetcher
                     // If the request is throttled, wait and try again.
                     if (ordersErr.ErrorCode == "RequestThrottled")
                     {                        
-						NLog.LogManager.GetCurrentClassLogger().Info("Request is throttled; waiting for {0}", throttledWaitTime / 1000);                        
+						NLog.LogManager.GetCurrentClassLogger().Warn("Request is throttled; waiting for {0}", throttledWaitTime / 1000);                        
                         retryRequest = true;
                         System.Threading.Thread.Sleep(throttledWaitTime);
                     }
