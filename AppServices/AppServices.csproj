@@ -61,6 +61,7 @@
     <Compile Include="AmazonStore.cs" />
     <Compile Include="AxSalesOrder.cs" />
     <Compile Include="DB\AmazonOrders.cs" />
+    <Compile Include="DB\CandyDirectInventoryCount2012.cs" />
     <Compile Include="DB\InventTableModule.cs" />
     <Compile Include="DB\ProcessedOrders.cs" />
     <Compile Include="DB\Massive.cs" />

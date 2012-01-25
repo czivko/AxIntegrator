@@ -1,6 +1,6 @@
 USE [CandyDirectAx]
 GO
-
+ 
 /****** Object:  Table [dbo].[CandyDirectProcessedOrders]    Script Date: 01/18/2012 12:50:31 ******/
 SET ANSI_NULLS ON
 GO
@@ -14,6 +14,7 @@ GO
 CREATE TABLE [dbo].[CandyDirectAmazonOrders](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] null,
 	[Store] [varchar](50) NULL,
 	[StoreEntityId] [varchar](50) NULL,
 	[OrderNumber] [varchar](100) NULL,
