@@ -13,6 +13,71 @@ namespace Tests
 	public class AmazonImportTests
 	{
 		[Test]
+		public void ConnectionTest()
+		{
+			using(var ax = Login())
+        	{
+        		 
+        		
+            	using (var axRecord = ax.CreateAxaptaRecord("SALESTABLE"))
+                {   
+            		 
+					axRecord.ExecuteStmt("select * from %1");
+					while (axRecord.Found)
+                    {
+                         
+                        var salesId = axRecord.get_Field("salesId");
+                        var salesName = axRecord.get_Field("salesName");
+
+                        Console.WriteLine(salesId + "\t" + salesName);
+
+                        axRecord.Next();
+                    }
+            	}           	
+            	
+            	 
+        	}
+		}
+		
+		[Test]
+		public void ImportUpCodes()
+		{
+			var db = Massive.DynamicModel.Open("CandyDirectAx");
+			var sql = @"select sku, UPC from CandyDirectItemUpcImport
+							where upc is not null";
+			var items = db.Query(sql);
+			
+			foreach (var item in items) 
+			{			
+	            try
+	            { 
+	            	using(var ax = Login())
+	            	{
+	            		ax.TTSBegin();
+	            		
+		            	using (var rec = ax.CreateAxaptaRecord("InventItemGTIN"))
+		                {   
+		            		 
+							rec.set_Field("ItemId" , item.sku);
+							rec.set_Field("Gtin", decimal.Parse(item.UPC));
+							rec.set_Field("Description", item.UPC);
+							
+		                    rec.Insert();
+		            	}           	
+		            	
+		            	ax.TTSCommit();
+	            	}
+	            	 
+	            }
+	
+	            catch (Exception e)
+	            {                
+	                NLog.LogManager.GetCurrentClassLogger().Error(e);
+	            }
+			}
+		}
+			
+		[Test]
 		public void CreateInventoryMovementJournal()
 		{
 			TempCreateInventJournalTrans();
@@ -127,12 +192,19 @@ namespace Tests
 			var ax = new Axapta();
 			var adUser = "czivko";
 			var adPass = "injectMyCandy99";
+			var aos = "ContosoSample2@CDAX01:2714";
+			aos = "CandyDirectAx@CDAX01:2715";
+			
 			if(adUser == null || adPass == null)
 				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings> in the config file");
+			
+			if(aos == null)
+				throw new ArgumentNullException("AxObjectServer is missing from <appsettings> in the config file. Sample: 'company1@AOS:2713'");
+			
 		
 			System.Net.NetworkCredential creds = new System.Net.NetworkCredential(
 				adUser,adPass, "candydirect.com");
-				ax.LogonAs("czivko","candydirect.com",creds,null,null,null,null);
+				ax.LogonAs(adUser,"candydirect.com",creds,null,null,aos,null);
 	        //ax.Logon(null, null, null, null);
 	        return ax;
 		}

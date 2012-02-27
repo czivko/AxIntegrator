@@ -14,12 +14,16 @@ namespace CandyDirect.AppServices
 			var ax = new Axapta();
 			var adUser = System.Configuration.ConfigurationManager.AppSettings["AxUserName"];
 			var adPass = System.Configuration.ConfigurationManager.AppSettings["AxUserPass"];
+			var aos = System.Configuration.ConfigurationManager.AppSettings["AxObjectServer"];
 			if(adUser == null || adPass == null)
 				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings> in the config file");
-		
+			
+			if(aos == null)
+				throw new ArgumentNullException("AxObjectServer is missing from <appsettings> in the config file. Sample: 'company1@AOS:2713'");
+			
 			System.Net.NetworkCredential creds = new System.Net.NetworkCredential(
 				adUser,adPass, "candydirect.com");
-				ax.LogonAs("czivko","candydirect.com",creds,null,null,null,null);
+				ax.LogonAs(adUser,"candydirect.com",creds,null,null,aos,null);
 	        //ax.Logon(null, null, null, null);
 	        return ax;
 		}
