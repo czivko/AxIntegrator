@@ -72,8 +72,8 @@ namespace CandyDirect.AppServices
                 
                 salesOrder.ShippingChargeAmount += Decimal.Parse(item.ShippingPrice.Amount);
                 
-                salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount),
-                                       item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),
+                salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount) /  item.QuantityOrdered,
+                                      decimal.Parse(item.ItemPrice.Amount),
                                        orderService.GetItemSalesUoM(item.SellerSKU),
                                        orderService.GetItemPrice(item.SellerSKU));
             });           

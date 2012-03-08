@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
+
+using CandyDirect.AppServices;
+using CandyDirect.AppServices.DB;
 using CandyDirect.AxIntegrator;
 using MarketplaceWebServiceOrders;
 using MarketplaceWebServiceOrders.Model;
 using NUnit.Framework;
-using System.Collections.Generic;
 using Shouldly;
-using System.Xml.Serialization;
-using CandyDirect.AppServices;
-using System.Linq;
 
 namespace Tests
 {
@@ -46,6 +48,17 @@ namespace Tests
 			twoLines.First().LineItems.Count.ShouldBe(2);
 		}
 		
+		[Test]
+		public void GetSpecificOrderAndMapToAx()
+		{
+			var store = new AmazonStore();
+			var amazonId = "102-2130201-6848236";
+			dynamic table = new AmazonOrders();
+			var rec = table.First(OrderNumber:amazonId);
+			var salesOrder= store.MapFromAmazonCache(rec);
+			store.GetOrderItems(salesOrder);
+			
+		}
 		
 	}
 
