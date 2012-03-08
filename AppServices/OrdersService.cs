@@ -69,6 +69,30 @@ namespace CandyDirect.AppServices
 			return null;
 		 
 		}
+		
+		public decimal GetItemPrice(string sku)
+		{
+			dynamic table = new InventTableModule();
+			var rec = table.First(ItemId:sku, ModuleType:2);
+			 
+			if(rec != null)
+				return rec.PRICE;
+			
+			return 0;
+		 
+		}
+		
+		public long GetSalesOrderRecId(string salesId)
+		{
+			dynamic table = new SalesTable();
+			var rec = table.First(salesId:salesId);
+			
+			if(rec != null)
+				return rec.RECID;
+			
+			return 0;
+		}
+		
 		public void CreateAxSalesOrder(SalesOrder order,string storeName)
 		{
             try
@@ -93,8 +117,23 @@ namespace CandyDirect.AppServices
 						rec.set_Field(AxSalesOrder.DeliveryState, order.State);
 						rec.set_Field(AxSalesOrder.DeliveryZipCode, order.Zip);
 						rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.Country);
+						//newly added
+						rec.set_Field(AxSalesOrder.OrderDate, order.StoreCreatedAt);
+						if(!string.IsNullOrWhiteSpace(order.GiftMessageFrom))
+							rec.set_Field(AxSalesOrder.GiftMessageFrom, order.GiftMessageFrom);
+						if(!string.IsNullOrWhiteSpace(order.GiftMessageTo))
+							rec.set_Field(AxSalesOrder.GiftMessageTo, order.GiftMessageTo);
+						if(!string.IsNullOrWhiteSpace(order.GiftMessageBody))
+							rec.set_Field(AxSalesOrder.GiftMessageBody, order.GiftMessageBody);
+						if(!string.IsNullOrWhiteSpace(order.CustomerOrderComment))
+							rec.set_Field(AxSalesOrder.CustomerOrderComment, order.CustomerOrderComment);
+						if(!string.IsNullOrWhiteSpace(order.DeliveryMode))
+							rec.set_Field(AxSalesOrder.DeliveryMode, order.DeliveryMode);
+						if(!string.IsNullOrWhiteSpace(order.EndDiscount))
+							rec.set_Field(AxSalesOrder.EndDiscount, order.EndDiscount);
 	
 	                    rec.Insert();
+	                    
 	                }   
 	            	foreach (var line in order.LineItems) 
 	            	{
@@ -114,11 +153,29 @@ namespace CandyDirect.AppServices
 		            		rec.set_Field(AxSalesOrder.LineAmount, line.StoreTotal);
 		            		if(!String.IsNullOrWhiteSpace(line.UnitOfMeasure))
 		            			rec.set_Field(AxSalesOrder.LineSalesUnit, line.UnitOfMeasure);
+		            		
+		            		rec.set_Field(AxSalesOrder.LineDiscount,line.LineDiscount);
 			            		
 		            		rec.Insert();
 	            		}
 	            	}
 	            	
+	            	ax.TTSCommit();
+	            	
+	            	ax.TTSBegin();
+	            	
+	            	using(var rec = ax.CreateAxaptaRecord("MarkupTrans"))
+	            	{
+	            		AxSalesOrder.MarkupTransBuildDefaults(rec);
+	            		var recid = GetSalesOrderRecId(order.OrderId);
+	            		rec.set_Field(AxSalesOrder.TransRecId, recid);
+	            		rec.set_Field(AxSalesOrder.MarkUpCode, order.ShippingChargeCode);
+	            		var txt = order.ShippingChargeCode == "FREESHIP" ? "Free_Shipping_Now" : "Freight";
+	            		rec.set_Field(AxSalesOrder.MarkupTransTxt, txt );
+	            		rec.set_Field(AxSalesOrder.MarkupTransValue, order.ShippingChargeAmount);
+	            		rec.Insert();
+	            		
+	            	}
 	            	ax.TTSCommit();
             	}
             	

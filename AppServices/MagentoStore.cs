@@ -39,19 +39,52 @@ namespace CandyDirect.AppServices
 			order.OrderId = magentoOrder.increment_id;
 			order.NativeId = magentoOrder.order_id;
 			order.CustomerName = magentoOrder.customer_firstname + " " + magentoOrder.customer_lastname;
+			if(string.IsNullOrWhiteSpace(order.CustomerName) && magentoOrder.billing_address != null)
+			   order.CustomerName = magentoOrder.billing_address.firstname + " " + magentoOrder.billing_address.lastname;
 			order.Street = magentoOrder.shipping_address.street;
 			order.City = magentoOrder.shipping_address.city;
 			order.State = magentoOrder.shipping_address.region;
-			order.Zip = magentoOrder.shipping_address.postcode;
+			order.Zip = magentoOrder.shipping_address.postcode; 
 			order.Country = magentoOrder.shipping_address.country_id;
+			order.StoreCreatedAt = DateTime.Parse(magentoOrder.created_at);
+			order.ShippingChargeCode = "FREIGHT"; // or FREESHIP
+			order.ShippingChargeAmount = Decimal.Parse(magentoOrder.shipping_amount);
+			
+			
+			order.DeliveryMode = MapDeliveryMethod(magentoOrder.shipping_method);
 			OrderService orderService = new OrderService();
 			foreach(var line in magentoOrder.items)
 			{
 				order.AddLineItem(line.sku, line.name, Decimal.Parse(line.qty_ordered),
-				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), orderService.GetItemSalesUoM(line.sku));
+				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), 
+				                  orderService.GetItemSalesUoM(line.sku),
+				                  orderService.GetItemPrice(line.sku));
 			}
 			
 			return order;
+		}
+		
+		public string MapDeliveryMethod(string method)
+		{
+			switch (method) {
+				case "ups_01":
+					return AxShippingMethods.UpsNextDay;
+				case "ups_02":
+					return AxShippingMethods.s2Day;
+				case "ups_03":
+					return AxShippingMethods.s5_8Day;
+				case "ups_12":
+					return AxShippingMethods.s3_4Day;
+				case "ups_13":
+					return AxShippingMethods.UpsNxtDaySaver;
+				case "ups_14":
+					return AxShippingMethods.UpsNextDayAm;
+				case "usps_Priority Mail Large Flat-Rate Box":
+					return AxShippingMethods.UpsNextDayAm;
+				default:
+					return AxShippingMethods.Standard;
+					 
+			}
 		}
 		public List<salesOrderEntity> GetNewMagentoOrders()
 		{

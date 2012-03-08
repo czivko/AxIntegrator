@@ -43,7 +43,10 @@ namespace Tests
 					                  order.City + " " +
 					                  order.State + " " +
 					                  order.Zip + " " +
-					                  order.Country
+					                  order.Country + " " +
+					                  order.StoreCreatedAt + " " +
+					                  order.DeliveryMode
+					                  
 					                 );
 					foreach (var line in order.LineItems) {
 						Console.WriteLine("    -  " + line.ItemSku  + " " +
@@ -51,9 +54,9 @@ namespace Tests
 						                 line.LineNumber  + " " +
 						                 line.Price  + " " +
 						                 line.Quantity  + " " +
-						                 line.StoreTotal  + " " +
-						                 line.CalculatedTotal  + " " +
-						                 line.UnitOfMeasure
+						                 line.StoreTotal  + " " + 
+						                 line.UnitOfMeasure + " " +
+						                 line.LineDiscount
 						                 );
 					}
 				}
@@ -69,6 +72,7 @@ namespace Tests
 		public void TestMethod()
 		{
 		 	MagentoService mservice = new MagentoService();
+		 	// need to get prod working mservice.Url = "http://dev.candydirect.com/index.php/api/v2_soap/index/";
           	String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
        
          	Console.WriteLine(mlogin);

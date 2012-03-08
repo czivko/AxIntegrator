@@ -60,15 +60,22 @@ namespace CandyDirect.AppServices
 		
 		public void GetOrderItems(SalesOrder salesOrder)
 		{
+			salesOrder.DeliveryMode = "Standard";
+			salesOrder.ShippingChargeCode = "FREIGHT";  
+			 
+			
 			OrderFetcher fetcher = new OrderFetcher(service, merchantId, new string[] { marketplaceId });
 			var orderService = new OrderService();
             fetcher.FetchOrderItems(salesOrder.NativeId, delegate(OrderItem item)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(item.ToString());
                 
+                salesOrder.ShippingChargeAmount += Decimal.Parse(item.ShippingPrice.Amount);
+                
                 salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount),
                                        item.QuantityOrdered * decimal.Parse(item.ItemPrice.Amount),
-                                       orderService.GetItemSalesUoM(item.SellerSKU));
+                                       orderService.GetItemSalesUoM(item.SellerSKU),
+                                       orderService.GetItemPrice(item.SellerSKU));
             });           
 		}
 		
@@ -97,6 +104,7 @@ namespace CandyDirect.AppServices
 			order.StoreStatus = amazonOrder.OrderStatus.ToString();
 			order.StoreCreatedAt = amazonOrder.PurchaseDate;
 			order.StoreUpdatedAt = amazonOrder.LastUpdateDate;
+			
 	
 			if(amazonOrder.IsSetShippingAddress())
 			{

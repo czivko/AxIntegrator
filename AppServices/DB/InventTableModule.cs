@@ -9,4 +9,6 @@ namespace CandyDirect.AppServices.DB
 	    	public InventTableModule():base("CandyDirectAx", "InventTableModule","RecId") {}
 	
 	}
+	
+
 }
