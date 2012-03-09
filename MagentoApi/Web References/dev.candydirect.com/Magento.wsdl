@@ -1019,6 +1019,38 @@
           <xsd:element minOccurs="0" name="use_config_manage_stock" type="xsd:int" />
         </xsd:all>
       </xsd:complexType>
+      <xsd:complexType name="customerCommentDetail">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="gift_message_sender" type="xsd:string" />
+          <xsd:element minOccurs="0" name="gift_message_recipient" type="xsd:string" />
+          <xsd:element minOccurs="0" name="gift_message" type="xsd:string" />
+          <xsd:element minOccurs="0" name="customer_comment" type="xsd:string" />
+          <xsd:element minOccurs="0" name="coupon_code" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="customerCommentDetailArray">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="typens:customerCommentDetail[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="catalogAssignedProductDetail">
+        <xsd:all>
+          <xsd:element minOccurs="0" name="product_id" type="xsd:string" />
+          <xsd:element minOccurs="0" name="gift_message_sender" type="xsd:string" />
+          <xsd:element minOccurs="0" name="gift_message_recipient" type="xsd:string" />
+          <xsd:element minOccurs="0" name="gift_message" type="xsd:string" />
+          <xsd:element minOccurs="0" name="customer_comment" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="catalogAssignedProductDetailArray">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="soapenc:Array">
+            <xsd:attribute wsdl:arrayType="typens:catalogAssignedProductDetail[]" ref="soapenc:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="endSession">
@@ -1652,6 +1684,22 @@
   <wsdl:message name="catalogInventoryStockItemUpdateResponse">
     <wsdl:part name="result" type="xsd:int" />
   </wsdl:message>
+  <wsdl:message name="salesOrderCustomerCommentRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="orderId" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="salesOrderCustomerCommentResponse">
+    <wsdl:part name="result" type="typens:customerCommentDetail" />
+  </wsdl:message>
+  <wsdl:message name="catalogCategoryAssignedProductsDetailRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="categoryId" type="xsd:int" />
+    <wsdl:part name="storeView" type="xsd:string" />
+    <wsdl:part name="filters" type="typens:filters" />
+  </wsdl:message>
+  <wsdl:message name="catalogCategoryAssignedProductsDetailResponse">
+    <wsdl:part name="result" type="typens:catalogAssignedProductDetail" />
+  </wsdl:message>
   <wsdl:portType name="Mage_Api_Model_Server_V2_HandlerPortType">
     <wsdl:operation name="endSession">
       <documentation>End web service session</documentation>
@@ -2072,6 +2120,16 @@
       <documentation>Update product stock data</documentation>
       <wsdl:input message="typens:catalogInventoryStockItemUpdateRequest" />
       <wsdl:output message="typens:catalogInventoryStockItemUpdateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderCustomerComment">
+      <documentation>Retrieve customer comment and gift messages</documentation>
+      <wsdl:input message="typens:salesOrderCustomerCommentRequest" />
+      <wsdl:output message="typens:salesOrderCustomerCommentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="catalogCategoryAssignedProductsDetail">
+      <documentation>Retrieve detailed list of assigned products</documentation>
+      <wsdl:input message="typens:catalogCategoryAssignedProductsDetailRequest" />
+      <wsdl:output message="typens:catalogCategoryAssignedProductsDetailResponse" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="Mage_Api_Model_Server_V2_HandlerBinding" type="typens:Mage_Api_Model_Server_V2_HandlerPortType">
@@ -2824,6 +2882,24 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="catalogInventoryStockItemUpdate">
+      <soap:operation soapAction="urn:Mage_Api_Model_Server_V2_HandlerAction" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:Magento" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:Magento" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="salesOrderCustomerComment">
+      <soap:operation soapAction="urn:Mage_Api_Model_Server_V2_HandlerAction" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:Magento" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:Magento" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="catalogCategoryAssignedProductsDetail">
       <soap:operation soapAction="urn:Mage_Api_Model_Server_V2_HandlerAction" />
       <wsdl:input>
         <soap:body use="encoded" namespace="urn:Magento" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />

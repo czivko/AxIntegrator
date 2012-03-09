@@ -2372,6 +2372,62 @@ namespace MagentoApi
             object[] results = this.EndInvoke(asyncResult);
             return ((int)(results[0]));
         }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:Mage_Api_Model_Server_V2_HandlerAction", RequestNamespace="urn:Magento", ResponseNamespace="urn:Magento")]
+        [return: System.Xml.Serialization.SoapElementAttribute("result")]
+        public customerCommentDetail salesOrderCustomerComment(string sessionId, int orderId)
+        {
+            object[] results = this.Invoke("salesOrderCustomerComment", new object[] {
+                        sessionId,
+                        orderId});
+            return ((customerCommentDetail)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginsalesOrderCustomerComment(string sessionId, int orderId, System.AsyncCallback callback, object asyncState)
+        {
+            return this.BeginInvoke("salesOrderCustomerComment", new object[] {
+                        sessionId,
+                        orderId}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public customerCommentDetail EndsalesOrderCustomerComment(System.IAsyncResult asyncResult)
+        {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((customerCommentDetail)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapRpcMethodAttribute("urn:Mage_Api_Model_Server_V2_HandlerAction", RequestNamespace="urn:Magento", ResponseNamespace="urn:Magento")]
+        [return: System.Xml.Serialization.SoapElementAttribute("result")]
+        public catalogAssignedProductDetail catalogCategoryAssignedProductsDetail(string sessionId, int categoryId, string storeView, filters filters)
+        {
+            object[] results = this.Invoke("catalogCategoryAssignedProductsDetail", new object[] {
+                        sessionId,
+                        categoryId,
+                        storeView,
+                        filters});
+            return ((catalogAssignedProductDetail)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BegincatalogCategoryAssignedProductsDetail(string sessionId, int categoryId, string storeView, filters filters, System.AsyncCallback callback, object asyncState)
+        {
+            return this.BeginInvoke("catalogCategoryAssignedProductsDetail", new object[] {
+                        sessionId,
+                        categoryId,
+                        storeView,
+                        filters}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public catalogAssignedProductDetail EndcatalogCategoryAssignedProductsDetail(System.IAsyncResult asyncResult)
+        {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((catalogAssignedProductDetail)(results[0]));
+        }
     }
     
     /// <remarks/>
@@ -2416,6 +2472,56 @@ namespace MagentoApi
         
         /// <remarks/>
         public string[] aliases;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("SharpDevelop", "4.1.0.8000-736b5b66")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="urn:Magento")]
+    public partial class catalogAssignedProductDetail
+    {
+        
+        /// <remarks/>
+        public string product_id;
+        
+        /// <remarks/>
+        public string gift_message_sender;
+        
+        /// <remarks/>
+        public string gift_message_recipient;
+        
+        /// <remarks/>
+        public string gift_message;
+        
+        /// <remarks/>
+        public string customer_comment;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("SharpDevelop", "4.1.0.8000-736b5b66")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="urn:Magento")]
+    public partial class customerCommentDetail
+    {
+        
+        /// <remarks/>
+        public string gift_message_sender;
+        
+        /// <remarks/>
+        public string gift_message_recipient;
+        
+        /// <remarks/>
+        public string gift_message;
+        
+        /// <remarks/>
+        public string customer_comment;
+        
+        /// <remarks/>
+        public string coupon_code;
     }
     
     /// <remarks/>

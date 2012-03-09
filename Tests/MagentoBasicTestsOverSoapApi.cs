@@ -10,6 +10,8 @@ namespace Tests
 	[TestFixture]
 	public class MagentoBasicTestsOverSoapApi
 	{
+		
+		
 		[Test]
 		public void CanGetNewMagentoOrders()
 		{ 
@@ -65,6 +67,22 @@ namespace Tests
 		private void PrintOrderItem(salesOrderItemEntity item)
 		{
 			Console.WriteLine("   ___  " + item.sku + " Name: " + item.name);
+			
+		}
+		
+		[Test]
+		public void CanGetOrderCommentsFromApi()
+		{
+			MagentoService mservice = new MagentoService();
+			String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
+			//var result = mservice.orderCommentsGetOrderComments(mlogin,"100048351");
+			var result1 = mservice.salesOrderCustomerComment(mlogin,48432);
+			 
+			Console.WriteLine(result1.gift_message_sender);
+			Console.WriteLine(result1.gift_message_recipient);
+			Console.WriteLine(result1.gift_message);
+			Console.WriteLine(result1.customer_comment);
+			Console.WriteLine(result1.coupon_code);
 			
 		}
 		
