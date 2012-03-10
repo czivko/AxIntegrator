@@ -97,11 +97,14 @@ namespace Tests
          	var atts = new catalogProductRequestAttributes();
 			atts.attributes =  new string[]{"name", "price"};
          	var info = mservice.catalogProductInfo(mlogin, "1113761-GP", null,atts);
-         
+         	var sales = mservice.salesOrderInfo(mlogin,"100048355");
+         	
           	Console.WriteLine("name: " + info.name);
           	Console.WriteLine(info.price);
+          	Console.WriteLine(sales.shipping_address.street);
            
          
 		}
+ 
 	}
 }

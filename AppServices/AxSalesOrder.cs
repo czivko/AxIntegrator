@@ -30,6 +30,7 @@ namespace CandyDirect.AppServices
 		public string GiftMessageBody {get; set;}
 		public string CustomerOrderComment {get; set;}
 		public string DeliveryMode {get; set;}
+		public string CouponCode {get; set;}
 		public string EndDiscount {get; set;} // RWC if "Registered Wholesales Customer" on Magento
 		public string ShippingChargeCode {get;set;}
 		public decimal ShippingChargeAmount {get; set;}

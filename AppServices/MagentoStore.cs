@@ -47,9 +47,14 @@ namespace CandyDirect.AppServices
 			order.Zip = magentoOrder.shipping_address.postcode; 
 			order.Country = magentoOrder.shipping_address.country_id;
 			order.StoreCreatedAt = DateTime.Parse(magentoOrder.created_at);
-			order.ShippingChargeCode = "FREIGHT"; // or FREESHIP
-			order.ShippingChargeAmount = Decimal.Parse(magentoOrder.shipping_amount);
 			
+			var customFields = GetMagentoOrderCustomFields(int.Parse(magentoOrder.order_id));
+			order.GiftMessageFrom = customFields.gift_message_sender;
+			order.GiftMessageTo = customFields.gift_message_recipient;
+			order.GiftMessageBody = customFields.gift_message;
+			order.CustomerOrderComment = customFields.customer_comment;
+			order.ShippingChargeCode = FreeShip(customFields.coupon_code) ? "FREESHIP" :"FREIGHT"; // or FREESHIP
+			order.ShippingChargeAmount = FreeShip(customFields.coupon_code) ? 0.0m : Decimal.Parse(magentoOrder.shipping_amount);
 			
 			order.DeliveryMode = MapDeliveryMethod(magentoOrder.shipping_method);
 			OrderService orderService = new OrderService();
@@ -62,6 +67,14 @@ namespace CandyDirect.AppServices
 			}
 			
 			return order;
+		}
+		
+		public bool FreeShip(string couponCode)
+		{
+			if(!string.IsNullOrWhiteSpace(couponCode))
+				return couponCode.ToLower() == "free_shipping_now";
+			
+			return false;
 		}
 		
 		public string MapDeliveryMethod(string method)
@@ -104,6 +117,11 @@ namespace CandyDirect.AppServices
           	salesOrderEntity[] soe = _mservice.salesOrderList(_mlogin, mf);
           	return soe.ToList();
          
+		}
+		
+		public customerCommentDetail GetMagentoOrderCustomFields(int orderEntityId)
+		{
+			return _mservice.salesOrderCustomerComment(_mlogin, orderEntityId);
 		}
 		
 		public salesOrderEntity GetMagentoOrderDetails(string id)
