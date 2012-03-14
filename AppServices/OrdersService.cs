@@ -144,7 +144,7 @@ namespace CandyDirect.AppServices
 		            		rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
 		            		rec.set_Field(AxSalesOrder.LineNumber, line.LineNumber);
 		            		rec.set_Field(AxSalesOrder.LineItemId, line.ItemSku);
-		            		rec.set_Field(AxSalesOrder.LineItemName, line.ItemSku);
+		            		rec.set_Field(AxSalesOrder.LineItemName, line.ItemName);
 		            		rec.set_Field(AxSalesOrder.LineQuantityOrdered, line.Quantity);
 		            		rec.set_Field(AxSalesOrder.LineRemainSalesPhysical, line.Quantity);
 		            		rec.set_Field(AxSalesOrder.LineSalesQuantity, line.Quantity);
