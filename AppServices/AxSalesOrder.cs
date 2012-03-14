@@ -44,7 +44,7 @@ namespace CandyDirect.AppServices
 			               	OrderId = this.OrderId,
 			               	LineNumber = ((decimal)(this._lineItems.Count + 1m)),
 			               	ItemSku = itemSku,
-			               	ItemName = itemSku,
+			               	ItemName = itemName,
 			               	Quantity = quantity,
 			               	Price = price ,
 			               	StoreTotal = storeTotal,
