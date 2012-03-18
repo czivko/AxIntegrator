@@ -53,26 +53,31 @@ namespace CandyDirect.AppServices
 			order.GiftMessageTo = customFields.gift_message_recipient;
 			order.GiftMessageBody = customFields.gift_message;
 			order.CustomerOrderComment = customFields.customer_comment;
-			order.ShippingChargeCode = FreeShip(customFields.coupon_code) ? "FREESHIP" :"FREIGHT"; // or FREESHIP
-			order.ShippingChargeAmount = FreeShip(customFields.coupon_code) ? 0.0m : Decimal.Parse(magentoOrder.shipping_amount);
+			order.ShippingChargeCode = FreeShip(customFields.coupon_code,magentoOrder.shipping_method ) ? "FREESHIP" :"FREIGHT"; // or FREESHIP
+			order.ShippingChargeAmount = FreeShip(customFields.coupon_code,magentoOrder.shipping_method) ? 0.0m : Decimal.Parse(magentoOrder.shipping_amount);
 			
+			order.EndDiscount = magentoOrder.customer_group_id.Trim() == "2" ? "RWC" : ""; // this is the whole sale group on magento
+			 
 			order.DeliveryMode = MapDeliveryMethod(magentoOrder.shipping_method);
 			OrderService orderService = new OrderService();
 			foreach(var line in magentoOrder.items)
 			{
 				order.AddLineItem(line.sku, line.name, Decimal.Parse(line.qty_ordered),
-				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total), 
+				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total) - Decimal.Parse(line.discount_amount), 
 				                  orderService.GetItemSalesUoM(line.sku),
-				                  orderService.GetItemPrice(line.sku));
+				                  orderService.GetItemPrice(line.sku),
+				                  Decimal.Parse(line.discount_amount));
 			}
 			
 			return order;
 		}
 		
-		public bool FreeShip(string couponCode)
+		public bool FreeShip(string couponCode,string shippingMethod)
 		{
 			if(!string.IsNullOrWhiteSpace(couponCode))
 				return couponCode.ToLower() == "free_shipping_now";
+			if(!string.IsNullOrWhiteSpace(shippingMethod))
+				return shippingMethod.ToLower() == "freeshipping_freeshipping";
 			
 			return false;
 		}

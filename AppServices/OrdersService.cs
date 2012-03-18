@@ -151,6 +151,7 @@ namespace CandyDirect.AppServices
 		            		rec.set_Field(AxSalesOrder.LineRemainInventoryPhyscal, line.Quantity);
 		            		rec.set_Field(AxSalesOrder.LineSealesPrice, line.Price);
 		            		rec.set_Field(AxSalesOrder.LineAmount, line.StoreTotal);
+		            		rec.set_Field(AxSalesOrder.LineSalesMarkup, line.SalesMarkup);
 		            		if(!String.IsNullOrWhiteSpace(line.UnitOfMeasure))
 		            			rec.set_Field(AxSalesOrder.LineSalesUnit, line.UnitOfMeasure);
 		            		

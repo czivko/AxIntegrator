@@ -37,9 +37,16 @@ namespace CandyDirect.AppServices
 				
 		public List<SalesLine> LineItems { get {return _lineItems;}}
 		
-		public void AddLineItem(string itemSku, string itemName, decimal quantity, decimal salesPrice, decimal storeTotal, string unitOfMeasure, decimal basePrice)
+		public void AddLineItem(string itemSku, string itemName, decimal quantity, decimal salesPrice, decimal storeTotal, string unitOfMeasure, decimal axPrice, decimal storeDiscountPrice = 0.0m)
 		{
-			var price = basePrice > 0 ? basePrice : salesPrice;
+			var price = axPrice > 0 ? axPrice : salesPrice;
+			//in magento store discount is total for line, in AX its per item
+			//var discPerItem = storeDiscountPrice / quantity;
+			var discount = (price - salesPrice);
+			
+			var calcTotal = ((axPrice - discount) * quantity) - storeDiscountPrice;
+			if(calcTotal != storeTotal)
+				NLog.LogManager.GetCurrentClassLogger().Error(string.Format("Price calc error for orderId: {0} itemId: {1} calcTotal: {2} storeTotal: {3} storeDiscount: {4}", OrderId, itemSku, calcTotal, storeTotal, storeDiscountPrice));
 			_lineItems.Add(new SalesLine{ 
 			               	OrderId = this.OrderId,
 			               	LineNumber = ((decimal)(this._lineItems.Count + 1m)),
@@ -49,7 +56,8 @@ namespace CandyDirect.AppServices
 			               	Price = price ,
 			               	StoreTotal = storeTotal,
 			               	UnitOfMeasure = unitOfMeasure,
-			               	LineDiscount = (price - salesPrice)
+			               	LineDiscount = discount,
+			               	SalesMarkup = storeDiscountPrice * -1
 			               });
 		}
 		
@@ -68,6 +76,7 @@ namespace CandyDirect.AppServices
 		public string UnitOfMeasure {get; set;}
 		public decimal LinePercent {get; set;}
 		public decimal LineDiscount {get;set;}
+		public decimal SalesMarkup {get; set;}
 			
 	}
 	public static class AxSalesOrder
@@ -157,6 +166,7 @@ namespace CandyDirect.AppServices
 		//new fields
 		public static string LinePercent = "LinePercent"; // discount percent
 		public static string LineDiscount = "LineDisc"; //discount
+		public static string LineSalesMarkup = "SalesMarkup";
 		
 		//Misc Charges table MarkupTrans
 		public static string TransTableId = "TransTableId"; //366
