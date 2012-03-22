@@ -69,13 +69,16 @@ namespace CandyDirect.AppServices
             fetcher.FetchOrderItems(salesOrder.NativeId, delegate(OrderItem item)
             {
                 NLog.LogManager.GetCurrentClassLogger().Info(item.ToString());
-                
-                salesOrder.ShippingChargeAmount += Decimal.Parse(item.ShippingPrice.Amount);
-                
-                salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount) /  item.QuantityOrdered,
-                                      decimal.Parse(item.ItemPrice.Amount),
-                                       orderService.GetItemSalesUoM(item.SellerSKU),
-                                       orderService.GetItemPrice(item.SellerSKU));
+                if(item.IsSetShippingPrice())
+                	salesOrder.ShippingChargeAmount += Decimal.Parse(item.ShippingPrice.Amount);
+                var quantityOrdered = item.IsSetQuantityOrdered() ? item.QuantityOrdered : 0;
+                if(!item.IsSetItemPrice() && quantityOrdered == 0)
+                	NLog.LogManager.GetCurrentClassLogger().Error("Amazon, Assuming Line is Cancelled.  Item Price and Quantity not set for Order {0} Item SKU {1} Quantity Ordered {2}",salesOrder.OrderId,item.SellerSKU, quantityOrdered);
+                else
+	                salesOrder.AddLineItem(item.SellerSKU,item.Title,item.QuantityOrdered,decimal.Parse(item.ItemPrice.Amount) /  item.QuantityOrdered,
+	                                      decimal.Parse(item.ItemPrice.Amount),
+	                                       orderService.GetItemSalesUoM(item.SellerSKU),
+	                                       orderService.GetItemPrice(item.SellerSKU));
             });           
 		}
 		

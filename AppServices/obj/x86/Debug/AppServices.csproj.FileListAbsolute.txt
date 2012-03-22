@@ -1,4 +1,3 @@
-C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\CandyDirect.AppServices.dll
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\CandyDirect.AppServices.pdb
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\MagentoApi.dll
@@ -7,5 +6,6 @@ C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\b
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\MagentoApi.pdb
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\MarketplaceWebServiceOrders.pdb
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\bin\Debug\NLog.xml
+C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\obj\x86\Debug\CandyDirect.AppServices.dll
 C:\Users\czivko\Documents\Visual Studio 2010\Projects\AxIntegrator\AppServices\obj\x86\Debug\CandyDirect.AppServices.pdb
