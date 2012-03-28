@@ -191,5 +191,6 @@ namespace CandyDirect.AppServices
 		public static string UpsNextDayAm = "UPSNxtAM";
 		public static string UpsNxtDaySaver = "UPSNxtSav";
 		public static string UspsFlateRate = "USPS Pr";
+		public static string TBD = "TBD";
 	}
 }

@@ -100,7 +100,7 @@ namespace CandyDirect.AppServices
 				case "usps_Priority Mail Large Flat-Rate Box":
 					return AxShippingMethods.UpsNextDayAm;
 				default:
-					return AxShippingMethods.Standard;
+					return AxShippingMethods.TBD;
 					 
 			}
 		}
