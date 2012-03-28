@@ -63,7 +63,8 @@ namespace CandyDirect.AppServices
 			foreach(var line in magentoOrder.items)
 			{
 				order.AddLineItem(line.sku, line.name, Decimal.Parse(line.qty_ordered),
-				                  Decimal.Parse(line.price),Decimal.Parse(line.row_total) - Decimal.Parse(line.discount_amount), 
+				                  Decimal.Parse(line.price),
+				                  Decimal.Parse(line.row_total),
 				                  orderService.GetItemSalesUoM(line.sku),
 				                  orderService.GetItemPrice(line.sku),
 				                  Decimal.Parse(line.discount_amount));

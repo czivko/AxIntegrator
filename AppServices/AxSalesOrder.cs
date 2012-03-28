@@ -42,9 +42,16 @@ namespace CandyDirect.AppServices
 			var price = axPrice > 0 ? axPrice : salesPrice;
 			//in magento store discount is total for line, in AX its per item
 			//var discPerItem = storeDiscountPrice / quantity;
-			var discount = (price - salesPrice);
 			
-			var calcTotal = ((axPrice - discount) * quantity) - storeDiscountPrice;
+			//If store base price is not equal to AX base price then set a discount so total matches tore
+			var discount = (price - salesPrice);
+			//only add store discount if they are Not wholesale customer, AX needs to calc wholesale incase amounts change
+			if(this.EndDiscount != "RWC")
+				discount += storeDiscountPrice / quantity;
+			 
+			var lineTotal = this.EndDiscount == "RWC" ? storeTotal : storeTotal - storeDiscountPrice;
+			
+			var calcTotal = ((axPrice - discount) * quantity);
 			if(calcTotal != storeTotal)
 				NLog.LogManager.GetCurrentClassLogger().Error(string.Format("Price calc error for orderId: {0} itemId: {1} calcTotal: {2} storeTotal: {3} storeDiscount: {4}", OrderId, itemSku, calcTotal, storeTotal, storeDiscountPrice));
 			_lineItems.Add(new SalesLine{ 
@@ -54,10 +61,10 @@ namespace CandyDirect.AppServices
 			               	ItemName = itemName,
 			               	Quantity = quantity,
 			               	Price = price ,
-			               	StoreTotal = storeTotal,
+			               	StoreTotal = lineTotal,
 			               	UnitOfMeasure = unitOfMeasure,
-			               	LineDiscount = discount,
-			               	SalesMarkup = storeDiscountPrice * -1
+			               	LineDiscount = discount 
+			               	//don't use this as it doesn't calc correctly for partial shipments SalesMarkup = storeDiscountPrice * -1
 			               });
 		}
 		
