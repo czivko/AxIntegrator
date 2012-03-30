@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 
 using CandyDirect.AppServices.DB;
 using Microsoft.Dynamics.BusinessConnectorNet;
@@ -54,7 +55,10 @@ namespace CandyDirect.AppServices
 			{
 				var orders = store.GetNewOrders();
 				NLog.LogManager.GetCurrentClassLogger().Info("New magento orders: {0}", orders.Count);
-				orders.ForEach(x => CreateAxSalesOrder(x, "Magento"));
+				//don't insert edited orders in AX
+				orders.Where(o => !(o.OrderId.Contains("-"))).ToList().ForEach(x => CreateAxSalesOrder(x, "Magento"));
+				//still log the edited orders though
+				orders.Where(o => o.OrderId.Contains("-")).ToList().ForEach(x => CreateProcessedOrder(x, "Magento"));
 			}
 		}
 		

@@ -39,6 +39,41 @@ namespace Tests
         	}
 		}
 		
+		
+		[Test]
+		public void ImportMissingPurchaseUnits()
+		{
+			var db = Massive.DynamicModel.Open("CandyDirectAx");
+			var sql = @"select purch.UNITID UnitId , COUNT(*) Total from CandyDirectAx..INVENTTABLEMODULE purch 
+						where MODULETYPE =1 and purch.UNITID not in (select unitid from UNIT)
+						group by  purch.UNITID
+						order by COUNT(*) desc";
+			var missingUnits = db.Query(sql);
+			foreach (var unit in missingUnits) 
+			{
+				try
+				{
+					using(var ax =Login())
+					{
+						ax.TTSBegin();
+						
+						using(var rec = ax.CreateAxaptaRecord("Unit"))
+					    {
+						      	rec.set_Field("UnitId",unit.UnitId);
+						      	rec.set_Field("Txt",unit.UnitId);
+						      	rec.Insert();
+					    }
+						
+						ax.TTSCommit();
+						      
+					}
+				}
+				catch (Exception e)
+	            {                
+	                NLog.LogManager.GetCurrentClassLogger().Error(e);
+	            }
+			}
+		}
 		[Test]
 		public void ImportUpCodes()
 		{
@@ -193,7 +228,7 @@ namespace Tests
 			var adUser = "czivko";
 			var adPass = "injectMyCandy99";
 			var aos = "ContosoSample2@CDAX01:2714";
-			aos = "CandyDirectAx@CDAX01:2715";
+			//aos = "CandyDirectAx@CDAX01:2715";
 			
 			if(adUser == null || adPass == null)
 				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings> in the config file");
