@@ -112,15 +112,16 @@ namespace CandyDirect.AppServices
 	                    AxSalesOrder.BuildDefaults(rec,storeName);
 	                    
 						rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
-						rec.set_Field(AxSalesOrder.DeliveryAddress , order.Street + System.Environment.NewLine + 
-						             order.City + ", " + order.State + " " + order.Zip );
-						rec.set_Field(AxSalesOrder.SalesName, order.CustomerName);
-						rec.set_Field(AxSalesOrder.DeliveryName,order.CustomerName);
-						rec.set_Field(AxSalesOrder.DeliveryStreet, order.Street);
-						rec.set_Field(AxSalesOrder.DeliveryCity, order.City);
-						rec.set_Field(AxSalesOrder.DeliveryState, order.State);
-						rec.set_Field(AxSalesOrder.DeliveryZipCode, order.Zip);
-						rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.Country);
+						rec.set_Field(AxSalesOrder.SalesName, order.BillToCustomerName);
+						rec.set_Field(AxSalesOrder.Email, order.CustomerEmail);
+						rec.set_Field(AxSalesOrder.DeliveryAddress , order.DeliveryStreet + System.Environment.NewLine + 
+						             order.DeliveryCity + ", " + order.DeliveryState + " " + order.DeliveryZip );
+						rec.set_Field(AxSalesOrder.DeliveryName,order.DeliveryCustomerName);
+						rec.set_Field(AxSalesOrder.DeliveryStreet, order.DeliveryStreet);
+						rec.set_Field(AxSalesOrder.DeliveryCity, order.DeliveryCity);
+						rec.set_Field(AxSalesOrder.DeliveryState, order.DeliveryState);
+						rec.set_Field(AxSalesOrder.DeliveryZipCode, order.DeliveryZip);
+						rec.set_Field(AxSalesOrder.DeliveryCountryRegionId, order.DeliveryCountry);
 						//newly added
 						rec.set_Field(AxSalesOrder.OrderDate, order.StoreCreatedAt);
 						if(!string.IsNullOrWhiteSpace(order.GiftMessageFrom))
@@ -182,6 +183,32 @@ namespace CandyDirect.AppServices
 	            		
 	            	}
 	            	ax.TTSCommit();
+	            	
+	            	if(!string.IsNullOrWhiteSpace(order.BillToStreet))
+	            	{
+	            		ax.TTSBegin();
+	            		using(var rec = ax.CreateAxaptaRecord("Address"))
+		            	{
+	            			var recid = GetSalesOrderRecId(order.OrderId);
+	            			rec.set_Field(AxSalesOrder.AddrTableId,366);
+	            			rec.set_Field(AxSalesOrder.AddrRecId,recid);
+	            			rec.set_Field(AxSalesOrder.AddressType,1);
+	            			
+		            		rec.set_Field(AxSalesOrder.AddressFullAddress , order.BillToStreet + System.Environment.NewLine + 
+							             order.BillToCity + ", " + order.BillToState + " " + order.BillToZip );
+							 
+							rec.set_Field(AxSalesOrder.AddressName,order.BillToCustomerName);
+							rec.set_Field(AxSalesOrder.AddressStreet, order.BillToStreet);
+							rec.set_Field(AxSalesOrder.AddressCity, order.BillToCity);
+							rec.set_Field(AxSalesOrder.AddressState, order.BillToState);
+							rec.set_Field(AxSalesOrder.AddressZipCode, order.BillToZip);
+							rec.set_Field(AxSalesOrder.AddressCountryRegionId, order.BillToCountry);
+							
+							rec.Insert();
+	            		}
+	            		ax.TTSCommit();
+	            	}
+	            	
             	}
             	
             	CreateProcessedOrder(order, storeName);
@@ -205,7 +232,7 @@ namespace CandyDirect.AppServices
 			                                  	CreatedAt = DateTime.Now,
 			                                  	StoreCreatedAt = order.StoreCreatedAt,
 			                                  	StoreStatus = order.StoreStatus,
-			                                  	ShipStreet = order.Street
+			                                  	ShipStreet = order.DeliveryStreet
 			                                  });
 		}
 		
@@ -221,12 +248,12 @@ namespace CandyDirect.AppServices
 			                                  	map.StoreCreatedAt = order.StoreCreatedAt;
 			                                  	map.StoreUpdatedAt = order.StoreUpdatedAt;
 			                                  	map.StoreStatus = order.StoreStatus;
-			                                  	map.CustomerName = order.CustomerName;
-			                                  	map.ShipStreet = order.Street;
-			                                  	map.ShipCity = order.City;
-			                                  	map.ShipState = order.State;
-			                                  	map.ShipZip = order.Zip;
-			                                  	map.ShipCountry = order.Country;
+			                                  	map.CustomerName = order.DeliveryCustomerName;
+			                                  	map.ShipStreet = order.DeliveryStreet;
+			                                  	map.ShipCity = order.DeliveryCity;
+			                                  	map.ShipState = order.DeliveryState;
+			                                  	map.ShipZip = order.DeliveryZip;
+			                                  	map.ShipCountry = order.DeliveryCountry;
 			                                   
 			if(existingOrder == null)
 			{

@@ -17,8 +17,19 @@ namespace CandyDirect.AppServices
 		
 		public MagentoStore()
 		{
+			var mUser = System.Configuration.ConfigurationManager.AppSettings["MagentoUserName"];
+			var mPass = System.Configuration.ConfigurationManager.AppSettings["MagentoUserPass"];
+			var mUrl = System.Configuration.ConfigurationManager.AppSettings["MagentoWebServiceUrl"];
+			if(mUser == null || mPass == null)
+				throw new ArgumentNullException("MagentoUserName or MagentoUserPass is missing from <appsettings> in the config file");
+			
+			if(mUrl == null)
+				throw new ArgumentNullException(@"MagentoWebServiceUrl is missing from <appsettings> in the config file. Sample: 'https://www.candydirect.com/index.php/api/v2_soap/index/'");
+			
+			
 			_mservice = new MagentoService();
-			_mlogin = _mservice.login("dynamics_ax", "dynamics_ax");
+			_mservice.Url = mUrl;
+			_mlogin = _mservice.login(mUser, mPass);
 			
 		}
 		
@@ -38,14 +49,18 @@ namespace CandyDirect.AppServices
 			var order = new SalesOrder();
 			order.OrderId = magentoOrder.increment_id;
 			order.NativeId = magentoOrder.order_id;
-			order.CustomerName = magentoOrder.customer_firstname + " " + magentoOrder.customer_lastname;
-			if(string.IsNullOrWhiteSpace(order.CustomerName) && magentoOrder.billing_address != null)
-			   order.CustomerName = magentoOrder.billing_address.firstname + " " + magentoOrder.billing_address.lastname;
-			order.Street = magentoOrder.shipping_address.street;
-			order.City = magentoOrder.shipping_address.city;
-			order.State = magentoOrder.shipping_address.region;
-			order.Zip = magentoOrder.shipping_address.postcode; 
-			order.Country = magentoOrder.shipping_address.country_id;
+			order.CustomerEmail = magentoOrder.customer_email;
+			order.BillToCustomerName = magentoOrder.customer_firstname + " " + magentoOrder.customer_lastname;
+			if(string.IsNullOrWhiteSpace(order.BillToCustomerName) && magentoOrder.billing_address != null)
+			   order.BillToCustomerName = magentoOrder.billing_address.firstname + " " + magentoOrder.billing_address.lastname;
+			
+			order.DeliveryCustomerName = magentoOrder.shipping_address.firstname + " " + magentoOrder.shipping_address.lastname;
+			order.DeliveryStreet = magentoOrder.shipping_address.street;
+			order.DeliveryCity = magentoOrder.shipping_address.city;
+			order.DeliveryState = magentoOrder.shipping_address.region;
+			order.DeliveryZip = magentoOrder.shipping_address.postcode; 
+			order.DeliveryCountry = magentoOrder.shipping_address.country_id;
+			SetBillingAddress(order, magentoOrder);
 			order.StoreCreatedAt = DateTime.Parse(magentoOrder.created_at);
 			
 			var customFields = GetMagentoOrderCustomFields(int.Parse(magentoOrder.order_id));
@@ -71,6 +86,29 @@ namespace CandyDirect.AppServices
 			}
 			
 			return order;
+		}
+		
+		public void SetBillingAddress(SalesOrder order, salesOrderEntity magentoOrder)
+		{
+			var billing = magentoOrder.billing_address;
+			var shipping = magentoOrder.shipping_address;
+			
+			if( !billing.firstname.Equals(shipping.firstname, StringComparison.OrdinalIgnoreCase) ||
+			    !billing.lastname.Equals(shipping.lastname,StringComparison.OrdinalIgnoreCase) ||
+				!billing.street.Equals(shipping.street,StringComparison.OrdinalIgnoreCase) ||
+				!billing.city.Equals(shipping.city,StringComparison.OrdinalIgnoreCase) ||
+				!billing.postcode.Equals(shipping.postcode,StringComparison.OrdinalIgnoreCase) ||
+				!billing.region.Equals(shipping.region,StringComparison.OrdinalIgnoreCase)
+			
+			)
+			{
+				order.BillToCustomerName = billing.firstname + " " + billing.lastname;
+				order.BillToStreet =  billing.street;
+				order.BillToCity =  billing.city;
+				order.BillToState =  billing.region;
+				order.BillToZip =  billing.postcode; 
+				order.BillToCountry =  billing.country_id;
+			}
 		}
 		
 		public bool FreeShip(string couponCode,string shippingMethod)

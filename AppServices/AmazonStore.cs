@@ -90,12 +90,12 @@ namespace CandyDirect.AppServices
 			order.StoreStatus = amazonOrder.StoreStatus;
 			order.StoreCreatedAt = amazonOrder.StoreCreatedAt;
 			order.StoreUpdatedAt = amazonOrder.StoreUpdatedAt;
-			order.CustomerName = amazonOrder.CustomerName;
-			order.Street =amazonOrder.ShipStreet;
-			order.City = amazonOrder.ShipCity;
-			order.State = amazonOrder.ShipState;
-			order.Zip = amazonOrder.ShipZip;
-			order.Country = amazonOrder.ShipCountry;
+			order.DeliveryCustomerName = amazonOrder.CustomerName;
+			order.DeliveryStreet =amazonOrder.ShipStreet;
+			order.DeliveryCity = amazonOrder.ShipCity;
+			order.DeliveryState = amazonOrder.ShipState;
+			order.DeliveryZip = amazonOrder.ShipZip;
+			order.DeliveryCountry = amazonOrder.ShipCountry;
 			
 			return order;
 		}
@@ -111,16 +111,16 @@ namespace CandyDirect.AppServices
 	
 			if(amazonOrder.IsSetShippingAddress())
 			{
-				order.CustomerName = amazonOrder.ShippingAddress.Name;
-				order.Street = amazonOrder.ShippingAddress.AddressLine1;
+				order.DeliveryCustomerName = amazonOrder.ShippingAddress.Name;
+				order.DeliveryStreet = amazonOrder.ShippingAddress.AddressLine1;
 				if(!String.IsNullOrWhiteSpace(amazonOrder.ShippingAddress.AddressLine2))
-				   order.Street += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine2;
+				   order.DeliveryStreet += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine2;
 				if(!String.IsNullOrWhiteSpace(amazonOrder.ShippingAddress.AddressLine3))
-					order.Street += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine3;
-				order.City = amazonOrder.ShippingAddress.City;
-				order.State = amazonOrder.ShippingAddress.StateOrRegion;
-				order.Zip = amazonOrder.ShippingAddress.PostalCode;
-				order.Country = amazonOrder.ShippingAddress.CountryCode;
+					order.DeliveryStreet += System.Environment.NewLine + amazonOrder.ShippingAddress.AddressLine3;
+				order.DeliveryCity = amazonOrder.ShippingAddress.City;
+				order.DeliveryState = amazonOrder.ShippingAddress.StateOrRegion;
+				order.DeliveryZip = amazonOrder.ShippingAddress.PostalCode;
+				order.DeliveryCountry = amazonOrder.ShippingAddress.CountryCode;
 			}
 			
 			return order;

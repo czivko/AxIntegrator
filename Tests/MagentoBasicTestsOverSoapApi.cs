@@ -40,12 +40,12 @@ namespace Tests
 				foreach (var order in orders) 
 				{
 					Console.WriteLine(order.OrderId + " " + order.NativeId  + " " +
-					                  order.CustomerName + " " +
-					                  order.Street + " " +
-					                  order.City + " " +
-					                  order.State + " " +
-					                  order.Zip + " " +
-					                  order.Country + " " +
+					                  order.DeliveryCustomerName + " " +
+					                  order.DeliveryStreet + " " +
+					                  order.DeliveryCity + " " +
+					                  order.DeliveryState + " " +
+					                  order.DeliveryZip + " " +
+					                  order.DeliveryCountry + " " +
 					                  order.StoreCreatedAt + " " +
 					                  order.DeliveryMode
 					                  
@@ -74,9 +74,10 @@ namespace Tests
 		public void CanGetOrderCommentsFromApi()
 		{
 			MagentoService mservice = new MagentoService();
+			mservice.Url = "https://www.candydirect.com/index.php/api/v2_soap/index/";
 			String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
 			//var result = mservice.orderCommentsGetOrderComments(mlogin,"100048351");
-			var result1 = mservice.salesOrderCustomerComment(mlogin,48432);
+			var result1 = mservice.salesOrderCustomerComment(mlogin,55206);
 			 
 			Console.WriteLine(result1.gift_message_sender);
 			Console.WriteLine(result1.gift_message_recipient);
@@ -90,18 +91,20 @@ namespace Tests
 		public void TestMethod()
 		{
 		 	MagentoService mservice = new MagentoService();
-		 	// need to get prod working mservice.Url = "http://dev.candydirect.com/index.php/api/v2_soap/index/";
+		 	// need to get prod working 
+		 	//mservice.Url = "https://www.candydirect.com/index.php/api/v2_soap/index/";
           	String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
        
          	Console.WriteLine(mlogin);
          	var atts = new catalogProductRequestAttributes();
 			atts.attributes =  new string[]{"name", "price"};
          	//var info = mservice.catalogProductInfo(mlogin, "1113761-GP", null,atts);
-         	var sales = mservice.salesOrderInfo(mlogin,"100048363");
+         	var sales = mservice.salesOrderInfo(mlogin,"100048396");
          	
           	//Console.WriteLine("name: " + info.name);
           	//Console.WriteLine(info.price);
           	Console.WriteLine(sales.shipping_address.street);
+          	Console.WriteLine(sales.billing_address.street);
            
          
 		}

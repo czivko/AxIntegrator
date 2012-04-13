@@ -15,12 +15,19 @@ namespace CandyDirect.AppServices
 		
 		public string OrderId {get; set;}
 		public string NativeId {get; set;}
-		public string CustomerName {get; set;}
-		public string Street {get; set;}
-		public string City {get; set;}
-		public string State {get; set;}
-		public string Zip {get; set;}
-		public string Country {get; set;}
+		public string DeliveryCustomerName {get; set;}
+		public string DeliveryStreet {get; set;}
+		public string DeliveryCity {get; set;}
+		public string DeliveryState {get; set;}
+		public string DeliveryZip {get; set;}
+		public string DeliveryCountry {get; set;}
+		public string BillToCustomerName {get; set;}
+		public string CustomerEmail {get; set;}
+		public string BillToStreet {get; set;}
+		public string BillToCity {get; set;}
+		public string BillToState {get; set;}
+		public string BillToZip {get; set;}
+		public string BillToCountry {get; set;}
 		public string StoreStatus {get; set;}
 		public DateTime StoreCreatedAt {get; set;}
 		public DateTime StoreUpdatedAt {get; set;}
@@ -130,6 +137,7 @@ namespace CandyDirect.AppServices
 		
 		public static string SalesId = "SalesId";
 		public static string SalesName = "SalesName";
+		public static string Email = "Email";
 		public static string CustomerAccountId = "CustAccount";
 		public static string InvoiceAccountId = "InvoiceAccount";
 		public static string DeliveryAddress = "DeliveryAddress";
@@ -185,6 +193,18 @@ namespace CandyDirect.AppServices
 		public static string MarkupTransTxt = "Txt"; //Freight, Free_Shipping_now
 		public static string ModuleType = "ModuleType"; // 1
 			
+		//Address in the globabl address table
+		public static string AddrTableId = "AddrTableId"; //related table 366 for SalesTable
+		public static string AddrRecId = "AddrRecId"; //RecId of sales order header
+		public static string AddressType = "Type"; //invoice = 1
+		
+		public static string AddressName = "Name";
+		public static string AddressFullAddress = "Address";
+		public static string AddressZipCode = "ZipCode";
+		public static string AddressCountryRegionId = "CountryRegionId";
+		public static string AddressState = "State";
+		public static string AddressCity = "City";
+		public static string AddressStreet = "Street";
 	}
 	
 	public static class AxShippingMethods
