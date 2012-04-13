@@ -90,6 +90,7 @@ namespace CandyDirect.AppServices
 			order.StoreStatus = amazonOrder.StoreStatus;
 			order.StoreCreatedAt = amazonOrder.StoreCreatedAt;
 			order.StoreUpdatedAt = amazonOrder.StoreUpdatedAt;
+			order.BillToCustomerName = amazonOrder.CustomerName;
 			order.DeliveryCustomerName = amazonOrder.CustomerName;
 			order.DeliveryStreet =amazonOrder.ShipStreet;
 			order.DeliveryCity = amazonOrder.ShipCity;
