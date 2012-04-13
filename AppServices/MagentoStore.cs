@@ -146,7 +146,7 @@ namespace CandyDirect.AppServices
 		public List<salesOrderEntity> GetNewMagentoOrders()
 		{
 			var table = new ProcessedOrders();
-			var lastOrder = table.All(where: "where store = @0", args: "Magento", orderBy: "id DESC", limit: 1).First();
+			var lastOrder = table.All(where: "where store = @0", args: "Magento", orderBy: "storeentityid DESC", limit: 1).First();
  			 	
           	filters mf = new filters();
            	complexFilter[] cpf = new complexFilter[1];

@@ -113,7 +113,9 @@ namespace CandyDirect.AppServices
 	                    
 						rec.set_Field(AxSalesOrder.SalesId, order.OrderId);
 						rec.set_Field(AxSalesOrder.SalesName, order.BillToCustomerName);
-						rec.set_Field(AxSalesOrder.Email, order.CustomerEmail);
+						if(!string.IsNullOrWhiteSpace(order.CustomerEmail))
+							rec.set_Field(AxSalesOrder.Email, order.CustomerEmail);
+						
 						rec.set_Field(AxSalesOrder.DeliveryAddress , order.DeliveryStreet + System.Environment.NewLine + 
 						             order.DeliveryCity + ", " + order.DeliveryState + " " + order.DeliveryZip );
 						rec.set_Field(AxSalesOrder.DeliveryName,order.DeliveryCustomerName);
