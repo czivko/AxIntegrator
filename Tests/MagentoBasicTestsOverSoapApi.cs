@@ -92,20 +92,26 @@ namespace Tests
 		{
 		 	MagentoService mservice = new MagentoService();
 		 	// need to get prod working 
-		 	//mservice.Url = "https://www.candydirect.com/index.php/api/v2_soap/index/";
+		 	mservice.Url = "https://www.candydirect.com/index.php/api/v2_soap/index/";
           	String mlogin = mservice.login("dynamics_ax", "dynamics_ax");
        
          	Console.WriteLine(mlogin);
          	var atts = new catalogProductRequestAttributes();
 			atts.attributes =  new string[]{"name", "price"};
          	//var info = mservice.catalogProductInfo(mlogin, "1113761-GP", null,atts);
-         	var sales = mservice.salesOrderInfo(mlogin,"100048396");
+         	var sales = mservice.salesOrderInfo(mlogin,"100055500");
          	
           	//Console.WriteLine("name: " + info.name);
           	//Console.WriteLine(info.price);
           	Console.WriteLine(sales.shipping_address.street);
           	Console.WriteLine(sales.billing_address.street);
-           
+          	Console.WriteLine(sales.created_at);
+          	DateTime convertedDate = DateTime.SpecifyKind(
+				    DateTime.Parse(sales.created_at),
+				    DateTimeKind.Utc);
+				
+          	Console.WriteLine(convertedDate.Kind);
+          	Console.WriteLine(convertedDate.ToLocalTime());
          
 		}
 		

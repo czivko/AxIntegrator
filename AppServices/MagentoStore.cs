@@ -61,7 +61,8 @@ namespace CandyDirect.AppServices
 			order.DeliveryZip = magentoOrder.shipping_address.postcode; 
 			order.DeliveryCountry = magentoOrder.shipping_address.country_id;
 			SetBillingAddress(order, magentoOrder);
-			order.StoreCreatedAt = DateTime.Parse(magentoOrder.created_at);
+			DateTime utcSalesDate = DateTime.SpecifyKind(DateTime.Parse(magentoOrder.created_at), DateTimeKind.Utc);
+			order.StoreCreatedAt =utcSalesDate.ToLocalTime();
 			
 			var customFields = GetMagentoOrderCustomFields(int.Parse(magentoOrder.order_id));
 			order.GiftMessageFrom = customFields.gift_message_sender;
