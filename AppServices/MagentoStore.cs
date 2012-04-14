@@ -138,7 +138,10 @@ namespace CandyDirect.AppServices
 					return AxShippingMethods.UpsNextDayAm;
 				case "usps_Priority Mail Large Flat-Rate Box":
 					return AxShippingMethods.UpsNextDayAm;
+				case "freeshipping_freeshipping":
+					return AxShippingMethods.FreeShipping;
 				default:
+					NLog.LogManager.GetCurrentClassLogger().Error("No Magento shipping method for {0}",method);
 					return AxShippingMethods.TBD;
 					 
 			}
