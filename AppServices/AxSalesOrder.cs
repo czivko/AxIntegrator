@@ -210,7 +210,7 @@ namespace CandyDirect.AppServices
 	
 	public static class AxShippingMethods
 	{
-		public static string s2Day = "2Day";
+		public static string s2Day = "2 Day";
 		public static string s3_4Day = "3-4";
 		public static string s5_8Day = "5-8";
 		public static string LTL = "LTL";

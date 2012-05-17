@@ -163,7 +163,7 @@ namespace CandyDirect.AppServices
 				case "ups_14":
 					return AxShippingMethods.UpsNextDayAm;
 				case "usps_Priority Mail Large Flat-Rate Box":
-					return AxShippingMethods.UpsNextDayAm;
+					return AxShippingMethods.UspsFlateRate;
 				case "freeshipping_freeshipping":
 					return AxShippingMethods.FreeShipping;
 				default:
