@@ -108,7 +108,7 @@ namespace CandyDirect.AppServices
 			order.StoreStatus = amazonOrder.OrderStatus.ToString();
 			order.StoreCreatedAt = amazonOrder.PurchaseDate;
 			order.StoreUpdatedAt = amazonOrder.LastUpdateDate;
-			
+		
 	
 			if(amazonOrder.IsSetShippingAddress())
 			{

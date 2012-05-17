@@ -73,8 +73,8 @@ namespace CandyDirect.AppServices
 			order.ShippingChargeAmount = FreeShip(customFields.coupon_code,magentoOrder.shipping_method) ? 0.0m : Decimal.Parse(magentoOrder.shipping_amount);
 			
 			order.EndDiscount = magentoOrder.customer_group_id.Trim() == "2" ? "RWC" : ""; // this is the whole sale group on magento
-			 
-			order.DeliveryMode = MapDeliveryMethod(magentoOrder.shipping_method);
+			order.PaymentMethod = MapPaymentMethod( magentoOrder);
+			order.DeliveryMode = MapDeliveryMethod(magentoOrder);
 			OrderService orderService = new OrderService();
 			foreach(var line in magentoOrder.items)
 			{
@@ -122,8 +122,31 @@ namespace CandyDirect.AppServices
 			return false;
 		}
 		
-		public string MapDeliveryMethod(string method)
+		public string MapPaymentMethod(salesOrderEntity magentoOrder)
 		{
+			switch(magentoOrder.payment.method) {
+				case "authorizenet":
+					if(magentoOrder.payment.cc_type.Trim().ToUpper() == "AE")
+						return "Amex";
+					if(magentoOrder.payment.cc_type.Trim().ToUpper() == "MC" ||
+					  magentoOrder.payment.cc_type.Trim().ToUpper() == "VI" ||
+					  magentoOrder.payment.cc_type.Trim().ToUpper() == "DI")
+							return "Visa/MC/DS";
+					return magentoOrder.payment.cc_type;
+				case "googlecheckout":
+					return "Google Chk";
+				case "paypal_standard": 
+					return "Paypal";
+				default:
+					return magentoOrder.payment.method; 
+			} 
+		}
+		
+		public string MapDeliveryMethod(salesOrderEntity magentoOrder)
+		{
+			var method = magentoOrder.shipping_method;
+			var orderId = magentoOrder.increment_id;
+			 
 			switch (method) {
 				case "ups_01":
 					return AxShippingMethods.UpsNextDay;
@@ -131,6 +154,8 @@ namespace CandyDirect.AppServices
 					return AxShippingMethods.s2Day;
 				case "ups_03":
 					return AxShippingMethods.s5_8Day;
+				//case "ups_11":
+				//	return AxShippingMethods.Standard;
 				case "ups_12":
 					return AxShippingMethods.s3_4Day;
 				case "ups_13":
@@ -142,8 +167,8 @@ namespace CandyDirect.AppServices
 				case "freeshipping_freeshipping":
 					return AxShippingMethods.FreeShipping;
 				default:
-					NLog.LogManager.GetCurrentClassLogger().Error("No Magento shipping method for {0}",method);
-					return AxShippingMethods.TBD;
+					NLog.LogManager.GetCurrentClassLogger().Error("No Magento Order: {0} shipping method for {1} and description {2}", orderId,method, magentoOrder.shipping_description);
+					return AxShippingMethods.TBD; 
 					 
 			}
 		}

@@ -41,6 +41,7 @@ namespace CandyDirect.AppServices
 		public string EndDiscount {get; set;} // RWC if "Registered Wholesales Customer" on Magento
 		public string ShippingChargeCode {get;set;}
 		public decimal ShippingChargeAmount {get; set;}
+		public string PaymentMethod {get; set;}
 				
 		public List<SalesLine> LineItems { get {return _lineItems;}}
 		
@@ -164,7 +165,7 @@ namespace CandyDirect.AppServices
 		public static string CustomerOrderComment = "CustomerOrderComment";
 		public static string DeliveryMode = "DlvMode";
 		public static string EndDiscount = "EndDisc"; // RWC if "Registered Wholesales Customer" on Magento
-		
+		public static string PaymentMethod = "PaymMode";
 		
 		public static string LineNumber = "LineNum";
 		public static string LineItemId = "ItemId";

@@ -180,7 +180,7 @@ namespace Tests
 		{
 			var table = new CandyDirectInventoryCount2012();
 			var items = table.All(where: "where QtyOnShelf <> 0");
-			Assert.That(items.ToList().Count(), Is.EqualTo(1593));
+			//Assert.That(items.ToList().Count(), Is.EqualTo(1593));
 			decimal lineNum = 1m;
 			foreach (var item in items) 
 			{			
@@ -192,9 +192,9 @@ namespace Tests
 	            		
 		            	using (var rec = ax.CreateAxaptaRecord("InventJournalTrans"))
 		                {   
-							rec.set_Field("JournalId", "000012_059");
+							rec.set_Field("JournalId", "000208_059");
 							rec.set_Field("LineNum" , lineNum);
-							rec.set_Field("TransDate", DateTime.Now);
+							rec.set_Field("TransDate", DateTime.Parse("4/14/2012"));
 							rec.set_Field("JournalType",0);
 							rec.set_Field("ItemId",item.sku);
 							rec.set_Field("Qty", item.QtyOnShelf);
@@ -222,13 +222,60 @@ namespace Tests
 			}
 		}
 		
+		[Test] 
+		public void RevertInventoryMovement()
+		{
+			
+			var table = new CandyDirectInventoryCount2012();
+			var items = table.All(where: "where QtyOnShelf <> 0");
+		
+			decimal lineNum = 1m;
+			foreach (var item in items) 
+			{			
+	            try
+	            { 
+	            	using(var ax = Login())
+	            	{
+	            		ax.TTSBegin();
+	            		
+		            	using (var rec = ax.CreateAxaptaRecord("InventJournalTrans"))
+		                {   
+							rec.set_Field("JournalId", "000206_059");
+							rec.set_Field("LineNum" , lineNum);
+							rec.set_Field("TransDate", DateTime.Parse("4/14/2012"));
+							rec.set_Field("JournalType",0);
+							rec.set_Field("ItemId",item.sku);
+							rec.set_Field("Qty", item.QtyOnShelf * -1);
+							rec.set_Field("PriceUnit", 1m);
+							rec.set_Field("LedgerAccountIdOffset", "9998-00");
+							rec.set_Field("InventDimId", "000001");
+							
+							/* setting these two in sql script
+							 * rec.set_Field("CostPrice", 1m);
+							 * rec.set_Field("CostAmount", 1m);
+							 */
+		
+		                    rec.Insert();
+		            	}           	
+		            	
+		            	ax.TTSCommit();
+	            	}
+	            	lineNum += 1m;
+	            }
+	
+	            catch (Exception e)
+	            {                
+	                NLog.LogManager.GetCurrentClassLogger().Error(e);
+	            }
+			}	
+		}
 		private Axapta Login()
 		{		
 			var ax = new Axapta();
 			var adUser = "czivko";
 			var adPass = "injectMyCandy99";
 			var aos = "ContosoSample2@CDAX01:2714";
-			//aos = "CandyDirectAx@CDAX01:2715";
+			aos = "CandyDirectAx@CDAX01:2715";
 			
 			if(adUser == null || adPass == null)
 				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings> in the config file");

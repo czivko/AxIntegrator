@@ -138,7 +138,9 @@ namespace CandyDirect.AppServices
 							rec.set_Field(AxSalesOrder.DeliveryMode, order.DeliveryMode);
 						if(!string.IsNullOrWhiteSpace(order.EndDiscount))
 							rec.set_Field(AxSalesOrder.EndDiscount, order.EndDiscount);
-	
+						if(PaymentMethodExists(order))
+							rec.set_Field(AxSalesOrder.PaymentMethod,order.PaymentMethod);
+						
 	                    rec.Insert();
 	                    
 	                }   
@@ -163,7 +165,7 @@ namespace CandyDirect.AppServices
 		            			rec.set_Field(AxSalesOrder.LineSalesUnit, line.UnitOfMeasure);
 		            		
 		            		rec.set_Field(AxSalesOrder.LineDiscount,line.LineDiscount);
-			            		
+			            	
 		            		rec.Insert();
 	            		}
 	            	}
@@ -269,6 +271,19 @@ namespace CandyDirect.AppServices
 				map.Updatedat = DateTime.Now;
 				amazonOrder.Update(map,existingOrder.Id);
 			}
+		}
+		
+		public bool PaymentMethodExists(SalesOrder order)
+		{
+			if(string.IsNullOrWhiteSpace(order.PaymentMethod))
+				return false;
+			
+			var table = new CustPaymModeTable();
+			if(table.All(where: "where PAYMMODE = @0", args: order.PaymentMethod, limit: 1).Any())
+				return true;
+			
+			NLog.LogManager.GetCurrentClassLogger().Error("Payment method not foud Order: {0} Method: {1}", order.OrderId, order.PaymentMethod);
+			return false;
 		}
 	}
 }
