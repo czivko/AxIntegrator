@@ -75,6 +75,8 @@ namespace CandyDirect.AppServices
 			order.EndDiscount = magentoOrder.customer_group_id.Trim() == "2" ? "RWC" : ""; // this is the whole sale group on magento
 			order.PaymentMethod = MapPaymentMethod( magentoOrder);
 			order.DeliveryMode = MapDeliveryMethod(magentoOrder);
+			if(!string.IsNullOrWhiteSpace(magentoOrder.shipping_description))
+				order.ShippingMethodDescription = ScrubShippingMethodDescription(magentoOrder.shipping_description);
 			OrderService orderService = new OrderService();
 			foreach(var line in magentoOrder.items)
 			{
@@ -89,6 +91,14 @@ namespace CandyDirect.AppServices
 			return order;
 		}
 		
+		public string ScrubShippingMethodDescription(string method)
+		{
+			string scrubbed = method.Trim();
+			if(scrubbed.StartsWith("-"))
+				scrubbed = scrubbed.Remove(0,1).Trim();
+			
+			return scrubbed;
+		}
 		public void SetBillingAddress(SalesOrder order, salesOrderEntity magentoOrder)
 		{
 			var billing = magentoOrder.billing_address;

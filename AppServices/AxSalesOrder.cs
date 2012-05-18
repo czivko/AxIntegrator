@@ -37,6 +37,7 @@ namespace CandyDirect.AppServices
 		public string GiftMessageBody {get; set;}
 		public string CustomerOrderComment {get; set;}
 		public string DeliveryMode {get; set;}
+		public string ShippingMethodDescription {get; set;}
 		public string CouponCode {get; set;}
 		public string EndDiscount {get; set;} // RWC if "Registered Wholesales Customer" on Magento
 		public string ShippingChargeCode {get;set;}
@@ -164,6 +165,7 @@ namespace CandyDirect.AppServices
 		public static string GiftMessageBody = "GiftMessageBody";
 		public static string CustomerOrderComment = "CustomerOrderComment";
 		public static string DeliveryMode = "DlvMode";
+		public static string ShippingMethodDescription = "ShippingMethodDescription";
 		public static string EndDiscount = "EndDisc"; // RWC if "Registered Wholesales Customer" on Magento
 		public static string PaymentMethod = "PaymMode";
 		

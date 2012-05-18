@@ -61,6 +61,7 @@ namespace CandyDirect.AppServices
 		public void GetOrderItems(SalesOrder salesOrder)
 		{
 			salesOrder.DeliveryMode = "Standard";
+			salesOrder.ShippingMethodDescription = "Standard";
 			salesOrder.ShippingChargeCode = "FREIGHT";  
 			 
 			

@@ -109,6 +109,7 @@ namespace Tests
           	DateTime convertedDate = DateTime.SpecifyKind(
 				    DateTime.Parse(sales.created_at),
 				    DateTimeKind.Utc);
+          	Console.WriteLine(sales.shipping_description);
 				
           	Console.WriteLine(convertedDate.Kind);
           	Console.WriteLine(convertedDate.ToLocalTime());

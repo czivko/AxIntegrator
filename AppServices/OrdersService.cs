@@ -136,6 +136,8 @@ namespace CandyDirect.AppServices
 							rec.set_Field(AxSalesOrder.CustomerOrderComment, order.CustomerOrderComment);
 						if(!string.IsNullOrWhiteSpace(order.DeliveryMode))
 							rec.set_Field(AxSalesOrder.DeliveryMode, order.DeliveryMode);
+						if(!string.IsNullOrWhiteSpace(order.ShippingMethodDescription))
+							rec.set_Field(AxSalesOrder.ShippingMethodDescription, order.ShippingMethodDescription);
 						if(!string.IsNullOrWhiteSpace(order.EndDiscount))
 							rec.set_Field(AxSalesOrder.EndDiscount, order.EndDiscount);
 						if(PaymentMethodExists(order))
