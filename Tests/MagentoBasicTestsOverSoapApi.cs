@@ -116,7 +116,24 @@ namespace Tests
          
 		}
 		
+		[Test]
+		public void GetLastUpdatedAt()
+		{
+			using(var store = new MagentoStore())
+			{
+				var soe = store.GetUpdateMagentoOrders();
+				Console.WriteLine("total {0}", soe.Count);
+		          foreach (salesOrderEntity msoe in soe)
+		          {
+		              	var orderInfo = store.GetMagentoOrderDetails(msoe.increment_id);
+		                  Console.WriteLine(orderInfo.order_id  + "::" + orderInfo.increment_id + " :: " 
+		              	                  + orderInfo.billing_firstname + " " + orderInfo.subtotal + " Number of items: " 
+		              	                  + orderInfo.items.Length);
+		              	Console.WriteLine("created {0} :: updated {1} :: Status {2}", orderInfo.created_at, orderInfo.updated_at, orderInfo.status);
+		              	 
+		          }
+			}
 		
- 
+		}
 	}
 }

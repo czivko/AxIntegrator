@@ -62,6 +62,10 @@ namespace CandyDirect.AppServices
 			}
 		}
 		
+		public void ProcessUpdatedMagentoOrders()
+		{
+			NLog.LogManager.GetLogger("CanceledOrder").Info("failed");
+		}
 		public string GetItemSalesUoM(string sku)
 		{
 			dynamic table = new InventTableModule();
@@ -238,7 +242,8 @@ namespace CandyDirect.AppServices
 			                                  	CreatedAt = DateTime.Now,
 			                                  	StoreCreatedAt = order.StoreCreatedAt,
 			                                  	StoreStatus = order.StoreStatus,
-			                                  	ShipStreet = order.DeliveryStreet
+			                                  	ShipStreet = order.DeliveryStreet,
+			                                  	StoreUpdatedAt = order.StoreUpdatedAt
 			                                  });
 		}
 		

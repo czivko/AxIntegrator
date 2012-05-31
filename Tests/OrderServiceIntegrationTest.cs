@@ -18,6 +18,13 @@ namespace Tests
 			service.ProcessNewMagentoOrders();
 		}
 		
+		[Test] 
+		public void ProcessUpdatedMagentoOrdersTest()
+		{
+			var service = new OrderService();
+			service.ProcessUpdatedMagentoOrders();
+			
+		}
 		[Test]
 		public void ProcessAmazonOrders()
 		{

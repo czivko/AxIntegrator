@@ -63,6 +63,9 @@ namespace CandyDirect.AppServices
 			SetBillingAddress(order, magentoOrder);
 			DateTime utcSalesDate = DateTime.SpecifyKind(DateTime.Parse(magentoOrder.created_at), DateTimeKind.Utc);
 			order.StoreCreatedAt =utcSalesDate.ToLocalTime();
+			DateTime utcUpdateDate = DateTime.SpecifyKind(DateTime.Parse(magentoOrder.updated_at), DateTimeKind.Utc);
+			order.StoreUpdatedAt = utcUpdateDate.ToLocalTime();
+			order.StoreStatus = magentoOrder.status;
 			
 			var customFields = GetMagentoOrderCustomFields(int.Parse(magentoOrder.order_id));
 			order.GiftMessageFrom = customFields.gift_message_sender;
@@ -202,6 +205,27 @@ namespace CandyDirect.AppServices
          
 		}
 		
+		public List<salesOrderEntity> GetUpdateMagentoOrders()
+		{
+			var table = new ProcessedOrders();
+			var lastUpdatedOrder = table.All(where: "where store = @0", args: "Magento", orderBy: "storeupdatedat DESC", limit: 1).First();
+			var d = lastUpdatedOrder.StoreUpdatedAt.AddSeconds(-2).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
+			
+			filters mf = new filters();
+           	complexFilter[] cpf = new complexFilter[1];
+           	complexFilter mcpf = new complexFilter();
+           	mcpf.key = "updated_at"; 
+           	associativeEntity mas = new associativeEntity();
+           	mas.key = "gt";
+           	mas.value =  lastUpdatedOrder.StoreUpdatedAt.AddSeconds(-2).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
+           	mcpf.value = mas;
+           	 
+           	cpf[0] = mcpf;
+           
+           	mf.complex_filter = cpf;
+          	salesOrderEntity[] soe = _mservice.salesOrderList(_mlogin, mf);
+          	return soe.ToList();
+		}
 		public customerCommentDetail GetMagentoOrderCustomFields(int orderEntityId)
 		{
 			return _mservice.salesOrderCustomerComment(_mlogin, orderEntityId);
