@@ -44,6 +44,17 @@ namespace CandyDirect.AppServices
 			return orders;
 		}
 		
+		public List<SalesOrder> GetUpdatedOrders()
+		{
+			var orders = new List<SalesOrder>();
+			foreach(var magentoOrder in GetUpdateMagentoOrders())
+			{
+				orders.Add(MapOrderFromStore(GetMagentoOrderDetails(magentoOrder.increment_id)));
+			}
+			
+			return orders;
+		}
+		
 		public SalesOrder MapOrderFromStore(salesOrderEntity magentoOrder)
 		{
 			var order = new SalesOrder();

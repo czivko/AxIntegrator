@@ -22,9 +22,10 @@ namespace Tests
 		public void ProcessUpdatedMagentoOrdersTest()
 		{
 			var service = new OrderService();
-			service.ProcessUpdatedMagentoOrders();
-			
+			var store = new MagentoStore();
+			service.ProcessUpdatedMagentoOrders(store.GetUpdatedOrders());
 		}
+		
 		[Test]
 		public void ProcessAmazonOrders()
 		{

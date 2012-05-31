@@ -53,6 +53,10 @@ namespace CandyDirect.AppServices
 		{
 			using(var store = new MagentoStore())
 			{
+				//1. process updates
+				ProcessUpdatedMagentoOrders(store.GetUpdatedOrders());
+				
+				//2. do the new orders
 				var orders = store.GetNewOrders();
 				NLog.LogManager.GetCurrentClassLogger().Info("New magento orders: {0}", orders.Count);
 				//don't insert edited orders in AX
@@ -62,10 +66,43 @@ namespace CandyDirect.AppServices
 			}
 		}
 		
-		public void ProcessUpdatedMagentoOrders()
+		public void ProcessUpdatedMagentoOrders(List<SalesOrder> salesOrders)
 		{
-			NLog.LogManager.GetLogger("CanceledOrder").Info("failed");
+			foreach (var order in salesOrders) 
+			{
+				dynamic processedOrderTable = new ProcessedOrders();
+				var processedOrder = processedOrderTable.First(StoreEntityId:order.NativeId);
+				if(processedOrder != null)
+				{
+					NLog.LogManager.GetLogger("CanceledOrder").Info("Existing Order: {0}   Old Status: {1}    Updated Status: {2} ",
+					                                                processedOrder.OrderNumber, processedOrder.StoreStatus, order.StoreStatus);
+					
+					if(order.StoreStatus.ToLower() == "canceled")
+					{
+						if(CancelOrderInAx(order.OrderId))
+							NLog.LogManager.GetLogger("CanceledOrder").Info("Could not cancel order in AX because of existing journals {0}", order.OrderId);
+						else
+						{
+							
+							NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
+						}
+					}
+					processedOrder.StoreStatus = order.StoreStatus;
+					processedOrder.StoreUpdatedAt = order.StoreUpdatedAt;
+					processedOrderTable.Save(processedOrder);
+					
+				}
+				else
+					NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
+			}
+			 
 		}
+		
+		public bool CancelOrderInAx(string orderId)
+		{
+			return false;
+		}
+		
 		public string GetItemSalesUoM(string sku)
 		{
 			dynamic table = new InventTableModule();
