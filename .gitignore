@@ -1,5 +1,10 @@
 [Bb]in/
 [Oo]bj/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
 *.user
 *.suo
 *.[Cc]ache
