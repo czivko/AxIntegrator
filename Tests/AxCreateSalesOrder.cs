@@ -65,6 +65,31 @@ namespace Tests
             }
            
 		}
+		
+		[Test]
+		public void CanCancelSalesOrder()
+		{
+			var ax = Login();
+			using(var axRecord = ax.CreateAxaptaRecord("SalesTable"))
+            {
+
+				// Execute a query to retrieve an editable record where the name is MyState.
+				axRecord.ExecuteStmt("select forupdate * from %1 where %1.SalesId == '100058480'");
+				
+				// If the record is found then update the name.
+				if (axRecord.Found)
+				{
+				    // Start a transaction that can be committed.
+				    ax.TTSBegin();
+				    Console.WriteLine(axRecord.get_Field("SalesStatus"));
+				    axRecord.set_Field("SalesStatus", 4);
+				    axRecord.Update();
+				
+				    // Commit the transaction.
+				    ax.TTSCommit();
+				}
+			}
+		}
 	
 	    [Test]
 		public void CanGetSalesOrderFromAx()
@@ -76,7 +101,19 @@ namespace Tests
 		public Axapta Login()
 		{		
 			var ax = new Axapta();
-	        ax.Logon(null, null, null, null);
+			var adUser = System.Configuration.ConfigurationManager.AppSettings["AxUserName"];
+			var adPass = System.Configuration.ConfigurationManager.AppSettings["AxUserPass"];
+			var aos = System.Configuration.ConfigurationManager.AppSettings["AxObjectServer"];
+			if(adUser == null || adPass == null)
+				throw new ArgumentNullException("AxUserName or AxUserPass is missing from <appsettings> in the config file");
+			
+			if(aos == null)
+				throw new ArgumentNullException("AxObjectServer is missing from <appsettings> in the config file. Sample: 'company1@AOS:2713'");
+			
+			System.Net.NetworkCredential creds = new System.Net.NetworkCredential(
+				adUser,adPass, "candydirect.com");
+				ax.LogonAs(adUser,"candydirect.com",creds,null,null,aos,null);
+	        //ax.Logon(null, null, null, null);
 	        return ax;
 		}
 		public void GetAllRecordsForAxTable(string tableName)

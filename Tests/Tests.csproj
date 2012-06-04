@@ -56,6 +56,7 @@
       <HintPath>..\packages\Shouldly.1.1.0.4\lib\35\Shouldly.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
