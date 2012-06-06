@@ -8,3 +8,5 @@ namespace CandyDirect.AppServices.DB
 		public SalesTable():base("CandyDirectAx", "SalesTable","RecId"){}
 	}
 }
+
+ 

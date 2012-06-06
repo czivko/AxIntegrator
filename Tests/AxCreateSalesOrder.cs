@@ -67,29 +67,32 @@ namespace Tests
 		}
 		
 		[Test]
-		public void CanCancelSalesOrder()
+		public void CanCancelDeliveryRemainderForLineTest()
 		{
 			var ax = Login();
-			using(var axRecord = ax.CreateAxaptaRecord("SalesTable"))
-            {
-
-				// Execute a query to retrieve an editable record where the name is MyState.
-				axRecord.ExecuteStmt("select forupdate * from %1 where %1.SalesId == '100058480'");
-				
-				// If the record is found then update the name.
-				if (axRecord.Found)
-				{
-				    // Start a transaction that can be committed.
-				    ax.TTSBegin();
-				    Console.WriteLine(axRecord.get_Field("SalesStatus"));
-				    axRecord.set_Field("SalesStatus", 4);
-				    axRecord.Update();
-				
-				    // Commit the transaction.
-				    ax.TTSCommit();
-				}
+			 
+			var axRecord = ax.CreateAxaptaRecord("SalesLine");
+			axRecord.ExecuteStmt("select forupdate * from %1 where %1.RecId == 5637156937");// 5637156936");
+			//var line = axRecord.Call("findRecId","5637156936");
+			
+			//var line = ax.CallStaticClassMethod("SalesLine","findRecId",5637156936);
+			if(axRecord.Found)
+			{
+				Console.WriteLine(axRecord.get_Field("RemainSalesPhysical"));
+				ax.TTSBegin();
+				//var result = ax.CallStaticClassMethod("InterCompanyUpdateRemPhys","synchronize",axRecord,1,1);
+				axRecord.set_Field("RemainSalesPhysical",0.0);
+				axRecord.set_Field("RemainInventPhysical",0.0);
+				Console.WriteLine(axRecord.get_Field("RemainSalesPhysical"));
+				axRecord.Update();
+				//axRecord.Write();
+				ax.TTSCommit();
+				Console.WriteLine(axRecord.get_Field("RemainSalesPhysical"));
+				//Console.WriteLine(result);
 			}
 		}
+		
+		 
 	
 	    [Test]
 		public void CanGetSalesOrderFromAx()

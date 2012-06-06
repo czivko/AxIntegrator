@@ -59,7 +59,7 @@ namespace CandyDirect.AppServices
 				//2. do the new orders
 				var orders = store.GetNewOrders();
 				NLog.LogManager.GetCurrentClassLogger().Info("New magento orders: {0}", orders.Count);
-				//don't insert edited orders in AX
+				//don't insert order edited in magento in AX
 				orders.Where(o => !(o.OrderId.Contains("-"))).ToList().ForEach(x => CreateAxSalesOrder(x, "Magento"));
 				//still log the edited orders though
 				orders.Where(o => o.OrderId.Contains("-")).ToList().ForEach(x => CreateProcessedOrder(x, "Magento"));
@@ -79,11 +79,11 @@ namespace CandyDirect.AppServices
 					
 					if(order.StoreStatus.ToLower() == "canceled")
 					{
-						if(CancelOrderInAx(order.OrderId))
-							NLog.LogManager.GetLogger("CanceledOrder").Info("Could not cancel order in AX because of existing journals {0}", order.OrderId);
+						if(CanNotCancelOrderInAx(order.OrderId))
+							NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Could not cancel order in AX because of existing Confirmation, Picking List, or Invoice.", order.OrderId);
 						else
 						{
-							
+							CancelOrderInAx(order.OrderId);
 							NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
 						}
 					}
@@ -98,8 +98,40 @@ namespace CandyDirect.AppServices
 			 
 		}
 		
-		public bool CancelOrderInAx(string orderId)
+		public void CancelOrderInAx(string orderId)
 		{
+        	using(var ax = Login())
+        	{
+        		dynamic table = new SalesLine();
+				var recs = table.Where(SalesId:orderId);
+				
+				ax.TTSBegin();
+				foreach (var rec in recs)
+				{
+					using (var axRecord = ax.CreateAxaptaRecord("SalesLine"))
+	                {
+	            		axRecord.ExecuteStmt("select forupdate * from %1 where %1.RecId == " + rec.RECID);
+	            		if(axRecord.Found)
+						{
+							axRecord.set_Field("RemainSalesPhysical",0.0);
+							axRecord.set_Field("RemainInventPhysical",0.0);
+							 
+							axRecord.Update();
+						}
+	            	}
+				}
+            	ax.TTSCommit();
+        	}
+
+		}
+			
+		public bool CanNotCancelOrderInAx(string orderId)
+		{
+			dynamic table = new SalesTable();
+			var rec = table.First(salesId:orderId);
+			if(rec.DOCUMENTSTATUS == 0)
+				return true;
+			
 			return false;
 		}
 		

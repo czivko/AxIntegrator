@@ -66,6 +66,7 @@
     <Compile Include="DB\InventTableModule.cs" />
     <Compile Include="DB\ProcessedOrders.cs" />
     <Compile Include="DB\Massive.cs" />
+    <Compile Include="DB\SalesLine.cs" />
     <Compile Include="DB\SalesTable.cs" />
     <Compile Include="OrdersService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
