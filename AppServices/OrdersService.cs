@@ -107,14 +107,15 @@ namespace CandyDirect.AppServices
 		public void ProcessOrderChange(SalesOrder salesOrder)
 		{
 			NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Just came in that replaces the original in AX, please verify for correctness.", salesOrder.OrderId);
+			CreateProcessedOrder(salesOrder, "Magento");
 		}
 		
 		public void CancelOrderInAx(string orderId)
 		{
         	using(var ax = Login())
         	{
-        		dynamic table = new SalesLine();
-				var recs = table.Find(SalesId:orderId);
+        		dynamic table = new CandyDirect.AppServices.DB.SalesLine();
+				var recs = table.FindBy(SalesId:orderId);
 				
 				ax.TTSBegin();
 				foreach (var rec in recs)

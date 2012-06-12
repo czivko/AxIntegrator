@@ -41,5 +41,13 @@ namespace Tests
 			var uom = service.GetItemSalesUoM("618632-aa");
 			uom.ShouldBe("12 COUNT");
 		}
+		
+		[Test]
+		public void CanGetSalesLineRecordsWithMasive()
+		{
+			
+			dynamic table = new CandyDirect.AppServices.DB.SalesLine();
+			var recs = table.FindBy(SalesId:"100058005");
+		}
 	}
 }
