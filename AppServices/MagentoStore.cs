@@ -52,7 +52,7 @@ namespace CandyDirect.AppServices
 				orders.Add(MapOrderFromStore(GetMagentoOrderDetails(magentoOrder.increment_id)));
 			}
 			
-			return orders;
+			return orders.OrderBy(y => y.StoreUpdatedAt).ToList();
 		}
 		
 		public SalesOrder MapOrderFromStore(salesOrderEntity magentoOrder)

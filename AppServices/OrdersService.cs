@@ -60,9 +60,9 @@ namespace CandyDirect.AppServices
 				var orders = store.GetNewOrders();
 				NLog.LogManager.GetCurrentClassLogger().Info("New magento orders: {0}", orders.Count);
 				//don't insert order edited in magento in AX
-				orders.Where(o => !(o.OrderId.Contains("-"))).ToList().ForEach(x => CreateAxSalesOrder(x, "Magento"));
+				//orders.Where(o => !(o.OrderId.Contains("-"))).ToList().ForEach(x => CreateAxSalesOrder(x, "Magento"));
 				//still log the edited orders though
-				orders.Where(o => o.OrderId.Contains("-")).ToList().ForEach(x => CreateProcessedOrder(x, "Magento"));
+				//orders.Where(o => o.OrderId.Contains("-")).ToList().ForEach(x => CreateProcessedOrder(x, "Magento"));
 			}
 		}
 		
@@ -93,9 +93,13 @@ namespace CandyDirect.AppServices
 					
 				}
 				else
+				{	
 					NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
-			}
-			 
+					//don't insert order edited in magento in AX
+					if(!order.OrderId.Contains("-"))
+						CreateAxSalesOrder(order, "Magento");
+				}
+			}	 
 		}
 		
 		public void CancelOrderInAx(string orderId)
@@ -103,7 +107,7 @@ namespace CandyDirect.AppServices
         	using(var ax = Login())
         	{
         		dynamic table = new SalesLine();
-				var recs = table.Where(SalesId:orderId);
+				var recs = table.Find(SalesId:orderId);
 				
 				ax.TTSBegin();
 				foreach (var rec in recs)
@@ -122,14 +126,13 @@ namespace CandyDirect.AppServices
 				}
             	ax.TTSCommit();
         	}
-
 		}
 			
 		public bool CanNotCancelOrderInAx(string orderId)
 		{
 			dynamic table = new SalesTable();
 			var rec = table.First(salesId:orderId);
-			if(rec.DOCUMENTSTATUS == 0)
+			if(rec.DOCUMENTSTATUS > 0)
 				return true;
 			
 			return false;
@@ -144,7 +147,6 @@ namespace CandyDirect.AppServices
 				return rec.UNITID.ToString().Trim();
 			
 			return null;
-		 
 		}
 		
 		public decimal GetItemPrice(string sku)
@@ -156,7 +158,6 @@ namespace CandyDirect.AppServices
 				return rec.PRICE;
 			
 			return 0;
-		 
 		}
 		
 		public long GetSalesOrderRecId(string salesId)
