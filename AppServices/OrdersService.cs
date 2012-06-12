@@ -96,10 +96,17 @@ namespace CandyDirect.AppServices
 				{	
 					NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
 					//don't insert order edited in magento in AX
-					if(!order.OrderId.Contains("-"))
+					if(order.OrderId.Contains("-"))
+						ProcessOrderChange(order);
+					else
 						CreateAxSalesOrder(order, "Magento");
 				}
 			}	 
+		}
+		
+		public void ProcessOrderChange(SalesOrder salesOrder)
+		{
+			NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Just came in that replaces the original in AX, please verify for correctness.", salesOrder.OrderId);
 		}
 		
 		public void CancelOrderInAx(string orderId)
