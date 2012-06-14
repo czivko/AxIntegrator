@@ -74,18 +74,17 @@ namespace CandyDirect.AppServices
 				var processedOrder = processedOrderTable.First(StoreEntityId:order.NativeId);
 				if(processedOrder != null)
 				{
-					NLog.LogManager.GetLogger("CanceledOrder").Info("Existing Order: {0}   Old Status: {1}    Updated Status: {2} ",
+					NLog.LogManager.GetLogger("CanceledOrder").Debug("Existing Order: {0}   Old Status: {1}    Updated Status: {2} ",
 					                                                processedOrder.OrderNumber, processedOrder.StoreStatus, order.StoreStatus);
 					
 					if(order.StoreStatus.ToLower() == "canceled")
 					{
 						if(CanNotCancelOrderInAx(order.OrderId))
 							NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Could not cancel order in AX because of existing Confirmation, Picking List, or Invoice.", order.OrderId);
+						else if(salesOrders.Any(x => x.OrderId.StartsWith(order.OrderId)))
+							NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Appears to be canceled do to a edit in Magento so will not be canceled in AX.",order.OrderId);
 						else
-						{
 							CancelOrderInAx(order.OrderId);
-							NLog.LogManager.GetCurrentClassLogger().Info("New {0}", order.OrderId);
-						}
 					}
 					processedOrder.StoreStatus = order.StoreStatus;
 					processedOrder.StoreUpdatedAt = order.StoreUpdatedAt;
@@ -99,7 +98,16 @@ namespace CandyDirect.AppServices
 					if(order.OrderId.Contains("-"))
 						ProcessOrderChange(order);
 					else
+					{	
 						CreateAxSalesOrder(order, "Magento");
+						if(order.StoreStatus.ToLower() == "canceled")
+						{
+							CancelOrderInAx(order.OrderId);
+						}
+						
+						if(salesOrders.Where(y => y.OrderId != order.OrderId).Any(x => x.OrderId.StartsWith(order.OrderId)))
+							NLog.LogManager.GetLogger("CanceledOrder").Info("New Order : {0}   Appears to be canceled do to a edit in Magento so will not be canceled in AX.",order.OrderId);
+					}
 				}
 			}	 
 		}
@@ -133,6 +141,7 @@ namespace CandyDirect.AppServices
 	            	}
 				}
             	ax.TTSCommit();
+            	NLog.LogManager.GetCurrentClassLogger().Info("Order Canceled {0}", orderId);
         	}
 		}
 			
@@ -140,7 +149,7 @@ namespace CandyDirect.AppServices
 		{
 			dynamic table = new SalesTable();
 			var rec = table.First(salesId:orderId);
-			if(rec.DOCUMENTSTATUS > 0)
+			if(rec != null && rec.DOCUMENTSTATUS > 0)
 				return true;
 			
 			return false;

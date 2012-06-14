@@ -5,12 +5,29 @@ using CandyDirect.AppServices.DB;
 using MagentoApi;
 using NUnit.Framework;
 using Shouldly;
+using System.Collections.Generic;
 
 namespace Tests
 {
 	[TestFixture]
 	public class OrderServiceIntegrationTest
 	{
+		
+		[Test]
+		public void ListAnyStartsWith()
+		{
+			var orders = new List<SalesOrder>(){
+				new SalesOrder{OrderId = "1"},
+				new SalesOrder{OrderId = "2"},
+				new SalesOrder{OrderId = "2-1"},
+				new SalesOrder{OrderId = "3-1"},
+			};
+			orders.Any(x => x.OrderId == "1").ShouldBe(true);
+			orders.Any(x => x.OrderId == "4").ShouldBe(false);
+			orders.Any(x => x.OrderId.StartsWith( "4")).ShouldBe(false);
+			orders.Any(x => x.OrderId.StartsWith( "1")).ShouldBe(true);
+			orders.Any(x => x.OrderId.StartsWith( "3")).ShouldBe(true);
+		}
 		[Test]
 		public void InsertNewMagentoOrdersIntoAx()
 		{
