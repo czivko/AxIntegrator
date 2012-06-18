@@ -81,7 +81,7 @@ namespace CandyDirect.AppServices
 					{
 						if(CanNotCancelOrderInAx(order.OrderId))
 							NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Could not cancel order in AX because of existing Confirmation, Picking List, or Invoice.", order.OrderId);
-						else if(salesOrders.Any(x => x.OrderId.StartsWith(order.OrderId)))
+						else if(IsAEditedOrder(salesOrders,order.OrderId))
 							NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Appears to be canceled do to a edit in Magento so will not be canceled in AX.",order.OrderId);
 						else
 							CancelOrderInAx(order.OrderId);
@@ -100,18 +100,23 @@ namespace CandyDirect.AppServices
 					else
 					{	
 						CreateAxSalesOrder(order, "Magento");
-						if(order.StoreStatus.ToLower() == "canceled")
+						if(order.StoreStatus.ToLower() == "canceled" && !IsAEditedOrder(salesOrders,order.OrderId))
 						{
 							CancelOrderInAx(order.OrderId);
 						}
 						
-						if(salesOrders.Where(y => y.OrderId != order.OrderId).Any(x => x.OrderId.StartsWith(order.OrderId)))
+						if(IsAEditedOrder(salesOrders,order.OrderId))
 							NLog.LogManager.GetLogger("CanceledOrder").Info("New Order : {0}   Appears to be canceled do to a edit in Magento so will not be canceled in AX.",order.OrderId);
 					}
 				}
 			}	 
 		}
 		
+		public bool IsAEditedOrder(List<SalesOrder> salesOrders, string orderId)
+		{
+			return salesOrders.Where(y => y.OrderId != orderId).Any(x => x.OrderId.StartsWith(orderId));
+		}
+			
 		public void ProcessOrderChange(SalesOrder salesOrder)
 		{
 			NLog.LogManager.GetLogger("CanceledOrder").Info("Order : {0}   Just came in that replaces the original in AX, please verify for correctness.", salesOrder.OrderId);
