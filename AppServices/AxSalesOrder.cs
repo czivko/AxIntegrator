@@ -62,7 +62,7 @@ namespace CandyDirect.AppServices
 			
 			var calcTotal = ((axPrice - discount) * quantity);
 			if(calcTotal != storeTotal)
-				NLog.LogManager.GetCurrentClassLogger().Error(string.Format("Price calc error for orderId: {0} itemId: {1} calcTotal: {2} storeTotal: {3} storeDiscount: {4}", OrderId, itemSku, calcTotal, storeTotal, storeDiscountPrice));
+				NLog.LogManager.GetCurrentClassLogger().Info(string.Format("Price calc error for orderId: {0} itemId: {1} calcTotal: {2} storeTotal: {3} storeDiscount: {4}", OrderId, itemSku, calcTotal, storeTotal, storeDiscountPrice));
 			_lineItems.Add(new SalesLine{ 
 			               	OrderId = this.OrderId,
 			               	LineNumber = ((decimal)(this._lineItems.Count + 1m)),
